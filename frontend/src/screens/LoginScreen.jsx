@@ -1,4 +1,5 @@
 import React from 'react';
+import { MainPath } from '../utils/Path';
 
 const LoginScreen = () => {
   return (
@@ -10,7 +11,9 @@ const LoginScreen = () => {
         <input type="password" />
         <br />
         <button> Login </button>
-        <button> to Register Page </button>
+        <a href={MainPath.REGISTER}>
+            to Register Page
+        </a>
     </div>
   );
 };
