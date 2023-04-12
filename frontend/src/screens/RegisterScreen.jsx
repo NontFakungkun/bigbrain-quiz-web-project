@@ -1,23 +1,65 @@
 import React from 'react';
+import './css/RegisterScreen.css'
 import { MainPath } from '../utils/Path';
+import { useNavigate } from 'react-router-dom';
+import fetchRequest from '../utils/fetchRequest';
 
 const RegisterScreen = () => {
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    // Authenticate user with credentials
+    if (!name) {
+      setErrorMessage('Please fill name');
+    } else if (!email) {
+      setErrorMessage('Please fill email');
+    } else if (!password) {
+      setErrorMessage('Please fill password');
+    } else if (password !== confirmPassword) { // Check if the passwords match
+      setErrorMessage('The passwords don\'t match');
+      setConfirmPassword('');
+    } else {
+      const payload = {
+        name: name,
+        email: email,
+        password: password,
+      }
+      fetchRequest(payload, 'POST', '/admin/auth/register')
+        .then((data) => {
+          localStorage.setItem('token', data.token);
+          navigate(MainPath.DASHBOARD);
+        }).catch((error) => {
+          setErrorMessage(error);
+        });
+    }
+  }
+
   return (
-    <div>
+    <div className='register-background'>
+      <div className='register-page'>
         <h1>Register</h1>
-        <p>Name</p>
-        <input type="text" />
-        <p>Email</p>
-        <input type="text" />
-        <p>Password</p>
-        <input type="password" />
-        <p>Confirm Password</p>
-        <input type="password" />
-        <br />
-        <button> Register </button>
-        <a href={MainPath.LOGIN}>
-            to Login Page
-        </a>
+        <p className='register-desc'>Register to create an account</p>
+          <form>
+            <input type="text" className='input-box' placeholder='Enter your Name' value={name} onChange={(event) => { setName(event.target.value) }}/>
+            <input type="text" className='input-box' placeholder='Enter your email' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+            <input type="password" className='input-box' placeholder='Enter your password' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
+            <input type="password" className='input-box' placeholder='Confirm your password' value={confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value) }}/>
+
+            <p className='error-message'>{errorMessage}</p>
+            <a className='login-link' href={MainPath.LOGIN}>
+              to Login page
+            </a>
+            <div className='register-btn'>
+              <button className='btn-primary' onClick={ handleSubmit }> Register </button>
+            </div>
+        </form>
+      </div>
     </div>
   );
 };
