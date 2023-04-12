@@ -13,18 +13,24 @@ const LoginScreen = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     // Authenticate user with credentials
-    const payload = {
-      email: email,
-      password: password,
+    if (!email) {
+      setErrorMessage('Enter email')
+    } else if (!password) {
+      setErrorMessage('Enter password')
+    } else {
+      const payload = {
+        email: email,
+        password: password,
+      }
+      fetchRequest(payload, 'POST', '/admin/auth/login')
+        .then((data) => {
+          localStorage.setItem('token', data.token);
+          navigate(MainPath.DASHBOARD)
+        }).catch((error) => {
+          setErrorMessage(error)
+          setPassword('')
+        });
     }
-    fetchRequest(payload, 'POST', '/admin/auth/login')
-      .then((data) => {
-        localStorage.setItem('token', data.token);
-        navigate(MainPath.DASHBOARD)
-      }).catch((error) => {
-        setErrorMessage(error)
-        setPassword('')
-      });
   }
 
   return (

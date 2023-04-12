@@ -9,15 +9,16 @@ const fetchRequest = (body, method, path) => {
       },
     };
 
-    if (method !== 'GET') {
+    if (Object.keys(body).length !== 0) {
+      console.log(body);
       options.body = JSON.stringify(body);
     }
 
     if (localStorage.getItem('token')) {
       options.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
-      console.log(options.headers.Authorization);
     }
 
+    console.log(method + path + ' ' + options.headers.Authorization);
     fetch('http://localhost:' + BACKEND_PORT + path, options)
       .then((response) => response.json())
       .then((data) => {

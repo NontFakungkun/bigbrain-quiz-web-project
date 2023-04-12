@@ -16,11 +16,11 @@ const RegisterScreen = () => {
     event.preventDefault()
     // Authenticate user with credentials
     if (!name) {
-      setErrorMessage('Please fill name');
+      setErrorMessage('Enter name');
     } else if (!email) {
-      setErrorMessage('Please fill email');
+      setErrorMessage('Enter email');
     } else if (!password) {
-      setErrorMessage('Please fill password');
+      setErrorMessage('Enter password');
     } else if (password !== confirmPassword) { // Check if the passwords match
       setErrorMessage('The passwords don\'t match');
       setConfirmPassword('');
