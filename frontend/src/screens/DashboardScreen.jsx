@@ -1,5 +1,7 @@
 import React from 'react';
+import Card from '@mui/material/Card';
 import LogoutButton from '../components/LogoutButton';
+import { CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 
 const DashboardScreen = () => {
   const token = localStorage.getItem('token');
@@ -8,7 +10,7 @@ const DashboardScreen = () => {
 
   const [newQuizName, setNewQuizName] = React.useState('');
 
-  React.useEffect(async () => {
+  const fetchQuizzes = async () => {
     const response = await fetch('http://localhost:5005/admin/quiz', {
       method: 'GET',
       headers: {
@@ -18,7 +20,11 @@ const DashboardScreen = () => {
     })
     const data = await response.json();
     setQuizzesList(data.quizzes);
-  }, [])
+  }
+
+  React.useEffect(async () => {
+    await fetchQuizzes();
+  }, [newGameDisplay])
 
   const createNewGame = async () => {
     await fetch('http://localhost:5005/admin/quiz/new', {
@@ -31,6 +37,8 @@ const DashboardScreen = () => {
         name: newQuizName,
       })
     })
+    await fetchQuizzes();
+    await setNewGameDisplay(false);
   }
 
   console.log(quizzesList);
@@ -39,7 +47,22 @@ const DashboardScreen = () => {
       This is Dashboard screen! <br />
       {quizzesList.map(quiz => (
         <>
-        {quiz.name}<br />
+        <Card sx={{ minWidth: 200, maxWidth: 50 }}>
+          <CardMedia
+            component="img"
+            height="100"
+            image= {quiz.thumbnail}
+            alt={`${quiz.name} ${quiz.owner} ${quiz.createdAt}`}
+          />
+          <CardContent>
+            <Typography variant='h6'>
+              {quiz.name}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size='small'>Edit Game</Button>
+          </CardActions>
+        </Card>
         </>
       ))}
 
