@@ -3,6 +3,7 @@ import './css/LoginScreen.css'
 import { useNavigate } from 'react-router-dom';
 import { MainPath } from '../utils/Path';
 import fetchRequest from '../utils/fetchRequest';
+import { Button } from '@mui/material';
 
 const LoginScreen = () => {
   const [email, setEmail] = React.useState('');
@@ -19,8 +20,8 @@ const LoginScreen = () => {
       setErrorMessage('Enter password')
     } else {
       const payload = {
-        email: email,
-        password: password,
+        email,
+        password,
       }
       fetchRequest(payload, 'POST', '/admin/auth/login')
         .then((data) => {
@@ -47,7 +48,7 @@ const LoginScreen = () => {
               to Register page
             </a>
             <div className='login-btn'>
-              <button className='btn-primary' onClick={ handleSubmit }> Login </button>
+              <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Login </Button>
             </div>
         </form>
       </div>

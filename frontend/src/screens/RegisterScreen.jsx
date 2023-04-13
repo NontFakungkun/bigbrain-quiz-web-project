@@ -3,6 +3,7 @@ import './css/RegisterScreen.css'
 import { MainPath } from '../utils/Path';
 import { useNavigate } from 'react-router-dom';
 import fetchRequest from '../utils/fetchRequest';
+import { Button } from '@mui/material';
 
 const RegisterScreen = () => {
   const [name, setName] = React.useState('');
@@ -26,9 +27,9 @@ const RegisterScreen = () => {
       setConfirmPassword('');
     } else {
       const payload = {
-        name: name,
-        email: email,
-        password: password,
+        name,
+        email,
+        password,
       }
       fetchRequest(payload, 'POST', '/admin/auth/register')
         .then((data) => {
@@ -56,7 +57,7 @@ const RegisterScreen = () => {
               to Login page
             </a>
             <div className='register-btn'>
-              <button className='btn-primary' onClick={ handleSubmit }> Register </button>
+              <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Register </Button>
             </div>
         </form>
       </div>

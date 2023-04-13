@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainPath } from '../utils/Path';
 import fetchRequest from '../utils/fetchRequest';
+import { Button } from '@mui/material';
 
 const LogoutButton = () => {
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ const LogoutButton = () => {
 
   return (
     <div>
-        <button name='logout-btn' onClick={logoutSubmit}> Logout </button>
+        <Button variant="outlined" size='small' name='logout-btn' onClick={logoutSubmit}> Logout </Button>
     </div>
   );
 };

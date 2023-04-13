@@ -3,7 +3,7 @@ const fetchRequest = (body, method, path) => {
     const BACKEND_PORT = require('../config.json').BACKEND_PORT;
 
     const options = {
-      method: method,
+      method,
       headers: {
         'Content-type': 'application/json',
       },

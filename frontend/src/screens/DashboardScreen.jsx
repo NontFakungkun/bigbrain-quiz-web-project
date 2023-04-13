@@ -8,7 +8,6 @@ const DashboardScreen = () => {
   const token = localStorage.getItem('token');
   const [newGameDisplay, setNewGameDisplay] = React.useState(false);
   const [quizzesList, setQuizzesList] = React.useState([]);
-
   const [newQuizName, setNewQuizName] = React.useState('');
 
   const fetchQuizzes = async () => {
@@ -38,13 +37,26 @@ const DashboardScreen = () => {
         name: newQuizName
       })
     })
-    await fetchQuizzes();
-    await setNewGameDisplay(false);
+    fetchQuizzes();
+    setNewQuizName('');
+    setNewGameDisplay(false);
   }
 
   return (
     <>
-      This is Dashboard screen! <br />
+      <h2> Dashboard </h2> <br />
+      <button onClick={() => setNewGameDisplay(!newGameDisplay)}>
+        Create New Game
+      </button>
+      <br />
+      { newGameDisplay && (
+        <>
+          New game setting:
+          <br />
+          Name: <input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/>
+          <button onClick={createNewGame}>Create New Game</button>
+        </>
+      )}
       {quizzesList.map(quiz => (
         <>
         <Card sx={{ minWidth: 500, maxWidth: 50, m: 2 }}>
@@ -60,27 +72,13 @@ const DashboardScreen = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Game</Button>
+            <Button variant="outlined" size='small' href={`${MainPath.EDITGAME}/${quiz.id}`}>Edit Game</Button>
             <Button variant="contained" size='small'>Start Game</Button>
           </CardActions>
         </Card>
         </>
       ))}
-
       <hr />
-      <button onClick={() => setNewGameDisplay(!newGameDisplay)}>
-        Create New Game
-      </button>
-      <br />
-      { newGameDisplay && (
-        <>
-          New game setting:
-          <br />
-          Name: <input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/>
-          <button onClick={createNewGame}>Create New Game</button>
-        </>
-      )}
-
       <LogoutButton />
     </>
   );
