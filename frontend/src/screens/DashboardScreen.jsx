@@ -21,8 +21,12 @@ const DashboardScreen = () => {
     setOpen(true);
     setCurrentQuizzId(value);
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setIsTryDeleteGame(false)
+  };
   const [isTryStartGame, setIsTryStartGame] = React.useState(false);
+  const [isTryDeleteGame, setIsTryDeleteGame] = React.useState(false);
 
   const fetchQuizzes = async () => {
     const response = await fetch('http://localhost:5005/admin/quiz', {
@@ -59,6 +63,18 @@ const DashboardScreen = () => {
     return isTryStartGame ? `Session ID: ${currentQuizzId}` : 'Would you like to view the results?';
   }
 
+  const deleteQuizz = async () => {
+    await fetch(`http://localhost:5005/admin/quiz/${currentQuizzId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    })
+    await fetchQuizzes();
+    handleClose();
+  }
+
   return (
     <>
       This is Dashboard screen! <br />
@@ -84,6 +100,9 @@ const DashboardScreen = () => {
             <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false); }}>
               Stop Game
             </Button>
+            <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
+              Delete Game
+            </Button>
           </CardActions>
         </Card>
         </>
@@ -92,12 +111,19 @@ const DashboardScreen = () => {
       <Modal open={open} onClose={handleClose}>
         <ModalStartGameBox>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {modalStartStopGame()}
-            {isTryStartGame && <CopyToClipboardBtn value={currentQuizzId}>Copy</CopyToClipboardBtn>}
-            {!isTryStartGame &&
+            {!isTryDeleteGame && modalStartStopGame()}
+            {isTryDeleteGame &&
+              <>
+                Are you sure? <br />
+                <Button variant="contained" size='small' onClick={deleteQuizz}>DELETE</Button>
+                <Button variant="outlined" size='small' onClick={handleClose}>cancel</Button>
+              </>
+            }
+            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={currentQuizzId}>Copy</CopyToClipboardBtn>}
+            {!isTryDeleteGame && !isTryStartGame &&
               <><br />
-                <Button variant="contained" size='small'>yes</Button>
-                <Button variant="outlined" size='small' onClick={handleClose}>no</Button>
+                <Button variant="contained" size='small' href={MainPath.RESULT}>yes</Button>
+                <Button variant="outlined" size='small' value={'1'} onClick={handleClose}>no</Button>
               </>
             }
           </Typography>
