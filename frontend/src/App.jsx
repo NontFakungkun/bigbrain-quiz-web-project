@@ -7,6 +7,7 @@ import DashboardScreen from './screens/DashboardScreen';
 import PlaygroundScreen from './screens/PlaygroundScreen';
 import LoggedInRoute from './utils/LoggedInRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
+import Editgame from './screens/Editgame';
 
 function App () {
   return (
@@ -19,6 +20,7 @@ function App () {
           <Route element={<ProtectedRoute />}>
             <Route path={MainPath.DASHBOARD} element={<DashboardScreen />} />
             <Route path={MainPath.HOME} element={<PlaygroundScreen />} />
+            <Route path={MainPath.EDITGAME} element={<Editgame />} />
           </Route>
           <Route path="*" element={
             <div>
