@@ -60,7 +60,8 @@ const DashboardScreen = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size='small' href={MainPath.EDITGAME}>Edit Game</Button>
+            <Button variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Game</Button>
+            <Button variant="contained" size='small'>Start Game</Button>
           </CardActions>
         </Card>
         </>
