@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import { MainPath } from '../utils/Path';
 import ModalStartGameBox from '../components/ModalStartGameBox';
 import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
+import fetchRequest from '../utils/fetchRequest';
 
 const DashboardScreen = () => {
-  const token = localStorage.getItem('token');
   const [newGameDisplay, setNewGameDisplay] = React.useState(false);
   const [quizzesList, setQuizzesList] = React.useState([]);
   const [newQuizName, setNewQuizName] = React.useState('');
@@ -27,36 +27,59 @@ const DashboardScreen = () => {
   const [isTryStartGame, setIsTryStartGame] = React.useState(false);
   const [isTryDeleteGame, setIsTryDeleteGame] = React.useState(false);
 
+  React.useEffect(() => {
+    fetchQuizzes();
+  }, [])
+
   const fetchQuizzes = async () => {
-    const response = await fetch('http://localhost:5005/admin/quiz', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    })
-    const data = await response.json();
-    setQuizzesList(data.quizzes);
+    await fetchRequest({}, 'GET', '/admin/quiz')
+      .then(async (data) => {
+        console.log(data)
+        const quizzes = data.quizzes;
+        const updatedQuizzes = [];
+        for (let i = 0; i < quizzes.length; i++) {
+          const quiz = quizzes[i];
+          const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`);
+          // Convert sec into min:sec
+          const totalTime = quizData.questions.reduce((total, q) => total + Number(q.timeLimit), 0)
+          const mins = Math.floor(totalTime / 60);
+          const secs = totalTime % 60;
+          const updatedQuiz = {
+            ...quiz,
+            qnum: quizData.questions.length,
+            totalTime: `${mins}:${secs}`,
+          };
+          updatedQuizzes.push(updatedQuiz);
+        }
+        // data.quizzes.forEach((quiz) => {
+        //   fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
+        //     .then((data) => {
+        //       console.log(data)
+        //       const newQuizzesList = [...data];
+        //       const quizIndex = newQuizzesList.findIndex((q) => q.id === quiz.id);
+        //       newQuizzesList[quizIndex].qnum = data.questions.length;
+        //       const totalTime = data.questions.reduce((total, quiz) => total + Number(quiz.timeLimit), 0);
+        //       // Convert sec into min:sec
+        //       const mins = Math.floor(totalTime / 60);
+        //       const secs = totalTime % 60;
+        //       newQuizzesList[quizIndex].totalTime = `${mins}:${secs}`;
+        //       setQuizzesList(newQuizzesList);
+        //     });
+        // });
+        setQuizzesList(updatedQuizzes);
+      })
   }
 
-  React.useEffect(async () => {
-    await fetchQuizzes();
-  }, [newGameDisplay])
-
   const createNewGame = async () => {
-    await fetch('http://localhost:5005/admin/quiz/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        name: newQuizName
+    const payload = {
+      name: newQuizName
+    }
+    fetchRequest(payload, 'POST', '/admin/quiz/new')
+      .then(() => {
+        setNewQuizName('');
+        setNewGameDisplay(false);
+        fetchQuizzes();
       })
-    })
-    fetchQuizzes();
-    setNewQuizName('');
-    setNewGameDisplay(false);
   }
 
   const modalStartStopGame = () => {
@@ -64,23 +87,19 @@ const DashboardScreen = () => {
   }
 
   const deleteQuizz = async () => {
-    await fetch(`http://localhost:5005/admin/quiz/${currentQuizzId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-    })
-    await fetchQuizzes();
-    handleClose();
+    fetchRequest({}, 'DELETE', `/admin/quiz/${currentQuizzId}`)
+      .then(() => {
+        fetchQuizzes();
+        handleClose();
+      })
   }
 
   return (
     <>
-      <h2> Dashboard </h2> <br />
-      <button onClick={() => setNewGameDisplay(!newGameDisplay)}>
+      <h2> Dashboard </h2>
+      <Button onClick={() => setNewGameDisplay(!newGameDisplay)}>
         Create New Game
-      </button>
+      </Button>
       <br />
       { newGameDisplay && (
         <>
@@ -103,16 +122,19 @@ const DashboardScreen = () => {
             <Typography variant='h6'>
               {quiz.name}
             </Typography>
+            <Typography variant='p'>
+              {quiz.qnum} Questions - {quiz.totalTime} Minutes
+            </Typography>
           </CardContent>
           <CardActions>
-            <Button variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Game</Button>
+            <Button sx={{ marginRight: 1 }} variant="outlined" size='small' href={`${MainPath.EDITGAME}/${quiz.id}`}>Edit Game</Button>
             <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); }}>
               Start Game
             </Button>
             <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false); }}>
               Stop Game
             </Button>
-            <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
+            <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
               Delete Game
             </Button>
           </CardActions>
@@ -141,21 +163,7 @@ const DashboardScreen = () => {
           </Typography>
         </ModalStartGameBox>
       </Modal>
-
       <hr />
-      <Button onClick={() => setNewGameDisplay(!newGameDisplay)}>
-        Create New Game
-      </Button>
-      <br />
-      { newGameDisplay && (
-        <>
-          New game setting:
-          <br />
-          Name: <input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/>
-          <button onClick={createNewGame}>Create New Game</button>
-        </>
-      )}
-
       <LogoutButton />
     </>
   );

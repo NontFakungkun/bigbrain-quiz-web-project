@@ -25,7 +25,7 @@ const EditGameScreen = () => {
   const [newGameModal, setNewGameModal] = React.useState(false);
 
   const fetchQuizData = async () => {
-    fetchRequest({}, 'GET', '/admin/quiz/' + quizId)
+    fetchRequest({}, 'GET', `/admin/quiz/${quizId}`)
       .then((data) => {
         setGameName(data.name);
         setThumbnailURL(data.thumbnail);
@@ -42,7 +42,7 @@ const EditGameScreen = () => {
       name,
       thumbnail,
     }
-    fetchRequest(payload, 'PUT', '/admin/quiz/' + quizId)
+    fetchRequest(payload, 'PUT', `/admin/quiz/${quizId}`)
       .then(() => {
         fetchQuizData();
       })
@@ -152,7 +152,7 @@ const EditGameScreen = () => {
               </CardContent>
               <CardActions>
                 <Button sx={{ marginRight: 5 }} variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Question</Button>
-                <Button variant="outlined" color='error' size='small' onClick={ () => { deleteQuestion(quiz.id) } }>Delete Question</Button>
+                <Button variant="contained" color='error' size='small' onClick={ () => { deleteQuestion(quiz.id) } }>Delete Question</Button>
               </CardActions>
             </Card>
           </>
