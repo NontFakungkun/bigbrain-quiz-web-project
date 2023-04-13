@@ -31,9 +31,6 @@ const EditGameScreen = () => {
         setGameName(data.name);
         setThumbnailURL(data.thumbnail);
         setQuestionList(data.questions);
-        console.log(data);
-        console.log(data.questions);
-        console.log(questionList);
       })
   }
 
@@ -52,7 +49,7 @@ const EditGameScreen = () => {
   const addNewQuestion = async () => {
     const choicesList = newQChoices.trim().split(';');
     const answerNumList = newQAnswer.split(';').map((num) => Number(num.trim()));
-    const answerList = choicesList.filter((question, index) => answerNumList.includes(index + 1));
+    const answerList = choicesList.filter((choice, index) => answerNumList.includes(index + 1));
     const questions = questionList;
     questions.push({
       id: questions.length + 1,
@@ -112,12 +109,13 @@ const EditGameScreen = () => {
         </Button>
       </div>
       <br />
-      <Grid sx={{
-        display: 'flex',
-        flexDirection: 'row',
-      }}>
+      <Grid container spacing={2}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}>
         {questionList.map((question, index) => (
-          <QuestionCard key={index} question={question} deleteQuestion={deleteQuestion} />
+          <QuestionCard key={index} quizId={quizId} question={question} deleteQuestion={deleteQuestion} />
         ))}
       </Grid>
       <hr />

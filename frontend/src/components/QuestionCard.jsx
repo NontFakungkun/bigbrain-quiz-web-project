@@ -3,7 +3,7 @@ import { MainPath } from '../utils/Path'
 import { Card, CardActions, CardContent, Typography, Button } from '@mui/material'
 
 const QuestionCard = (props) => {
-  const { question, deleteQuestion } = props
+  const { quizId, question, deleteQuestion } = props
   return (
     <>
       <Card sx={{
@@ -40,7 +40,7 @@ const QuestionCard = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button sx={{ marginRight: 5 }} variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Question</Button>
+          <Button sx={{ marginRight: 5 }} variant="outlined" size='small' href={`${MainPath.EDITQUESTION}/${quizId}/${question.id}`}>Edit Question</Button>
           <Button variant="contained" color='error' size='small' onClick={ () => { deleteQuestion(question.id) } }>Delete Question</Button>
         </CardActions>
       </Card>

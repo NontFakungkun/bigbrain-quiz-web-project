@@ -8,6 +8,7 @@ import PlaygroundScreen from './screens/PlaygroundScreen';
 import LoggedInRoute from './utils/LoggedInRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
 import EditGameScreen from './screens/EditGameScreen';
+import EditQuestionScreen from './screens/EditQuestionScreen';
 import ResultScreen from './screens/ResultScreen';
 
 function App () {
@@ -22,6 +23,7 @@ function App () {
             <Route path={MainPath.DASHBOARD} element={<DashboardScreen />} />
             <Route path={MainPath.HOME} element={<PlaygroundScreen />} />
             <Route path={`${MainPath.EDITGAME}/:quizId`} element={<EditGameScreen />} />
+            <Route path={`${MainPath.EDITQUESTION}/:quizId/:questionId`} element={<EditQuestionScreen />} />
             <Route path={MainPath.RESULT} element={<ResultScreen authed={true}/>} />
           </Route>
           <Route path="*" element={
