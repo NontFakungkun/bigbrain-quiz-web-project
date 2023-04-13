@@ -6,4 +6,5 @@ export const MainPath = {
   DASHBOARD: '/dashboard',
   PLAYGROUND: '/playground',
   EDITGAME: '/editgame',
+  RESULT: '/result',
 };
