@@ -1,12 +1,12 @@
 import React from 'react';
-import Card from '@mui/material/Card';
 import LogoutButton from '../components/LogoutButton';
-import { CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import { MainPath } from '../utils/Path';
 import ModalStartGameBox from '../components/ModalStartGameBox';
 import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
+import QuizCard from '../components/QuizCard';
 import fetchRequest from '../utils/fetchRequest';
 
 const DashboardScreen = () => {
@@ -51,21 +51,6 @@ const DashboardScreen = () => {
           };
           updatedQuizzes.push(updatedQuiz);
         }
-        // data.quizzes.forEach((quiz) => {
-        //   fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
-        //     .then((data) => {
-        //       console.log(data)
-        //       const newQuizzesList = [...data];
-        //       const quizIndex = newQuizzesList.findIndex((q) => q.id === quiz.id);
-        //       newQuizzesList[quizIndex].qnum = data.questions.length;
-        //       const totalTime = data.questions.reduce((total, quiz) => total + Number(quiz.timeLimit), 0);
-        //       // Convert sec into min:sec
-        //       const mins = Math.floor(totalTime / 60);
-        //       const secs = totalTime % 60;
-        //       newQuizzesList[quizIndex].totalTime = `${mins}:${secs}`;
-        //       setQuizzesList(newQuizzesList);
-        //     });
-        // });
         setQuizzesList(updatedQuizzes);
       })
   }
@@ -109,37 +94,8 @@ const DashboardScreen = () => {
           <button onClick={createNewGame}>Create New Game</button>
         </>
       )}
-      {quizzesList.map(quiz => (
-        <>
-        <Card sx={{ minWidth: 500, maxWidth: 50, m: 2 }}>
-          <CardMedia
-            component="img"
-            height="100"
-            image= {quiz.thumbnail}
-            alt={`${quiz.name} ${quiz.owner} ${quiz.createdAt}`}
-          />
-          <CardContent>
-            <Typography variant='h6'>
-              {quiz.name}
-            </Typography>
-            <Typography variant='p'>
-              {quiz.qnum} Questions - {quiz.totalTime} Minutes
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button sx={{ marginRight: 1 }} variant="outlined" size='small' href={`${MainPath.EDITGAME}/${quiz.id}`}>Edit Game</Button>
-            <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); }}>
-              Start Game
-            </Button>
-            <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false); }}>
-              Stop Game
-            </Button>
-            <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
-              Delete Game
-            </Button>
-          </CardActions>
-        </Card>
-        </>
+      {quizzesList.map((quiz, index) => (
+        <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame}/>
       ))}
 
       <Modal open={open} onClose={handleClose}>

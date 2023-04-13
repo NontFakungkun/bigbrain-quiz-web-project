@@ -1,11 +1,12 @@
 import React from 'react';
 import { MainPath } from '../utils/Path';
-import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import LogoutButton from '../components/LogoutButton';
-import { Typography, Button, Modal, Box, CardContent, CardActions } from '@mui/material';
+import QuestionCard from '../components/QuestionCard';
+import { Typography, Button, Modal, Box } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import fetchRequest from '../utils/fetchRequest';
+
 const EditGameScreen = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
@@ -115,47 +116,8 @@ const EditGameScreen = () => {
         display: 'flex',
         flexDirection: 'row',
       }}>
-        {questionList.map(quiz => (
-          <>
-            <Card sx={{
-              minWidth: 50,
-              maxWidth: 400,
-              m: 2,
-            }}>
-              <CardContent>
-                <Typography variant='h5'>
-                  {`Q.${quiz.id}: ${quiz.title}`}
-                </Typography>
-                <Typography variant='p'>
-                  {`Type: ${quiz.type}`}
-                </Typography>
-                <br />
-                <Typography variant='p'>
-                  {`Time Limit: ${quiz.timeLimit}`}
-                </Typography>
-                <br />
-                <Typography variant='p'>
-                  {`Points: ${quiz.points}`}
-                </Typography>
-                <br />
-                <Typography variant='p'>
-                  {`Media URL: ${quiz.media}`}
-                </Typography>
-                <br />
-                <Typography variant='p'>
-                  {`Choices: ${quiz.choices.join(', ')}`}
-                </Typography>
-                <br />
-                <Typography variant='p'>
-                  {`Answer(s): ${quiz.answer.join(', ')}`}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button sx={{ marginRight: 5 }} variant="outlined" size='small' href={MainPath.EDITGAME}>Edit Question</Button>
-                <Button variant="contained" color='error' size='small' onClick={ () => { deleteQuestion(quiz.id) } }>Delete Question</Button>
-              </CardActions>
-            </Card>
-          </>
+        {questionList.map((question, index) => (
+          <QuestionCard key={index} question={question} deleteQuestion={deleteQuestion} />
         ))}
       </Grid>
       <hr />
