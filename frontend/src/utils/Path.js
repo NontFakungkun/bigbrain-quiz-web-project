@@ -5,4 +5,5 @@ export const MainPath = {
   REGISTER: '/register',
   DASHBOARD: '/dashboard',
   PLAYGROUND: '/playground',
+  EDITGAME: '/editgame',
 };

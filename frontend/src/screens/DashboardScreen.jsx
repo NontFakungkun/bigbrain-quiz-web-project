@@ -1,7 +1,8 @@
 import React from 'react';
+import { MainPath } from '../utils/Path';
 import Card from '@mui/material/Card';
 import LogoutButton from '../components/LogoutButton';
-import { CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 
 const DashboardScreen = () => {
   const token = localStorage.getItem('token');
@@ -34,20 +35,19 @@ const DashboardScreen = () => {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        name: newQuizName,
+        name: newQuizName
       })
     })
     await fetchQuizzes();
     await setNewGameDisplay(false);
   }
 
-  console.log(quizzesList);
   return (
     <>
       This is Dashboard screen! <br />
       {quizzesList.map(quiz => (
         <>
-        <Card sx={{ minWidth: 200, maxWidth: 50 }}>
+        <Card sx={{ minWidth: 500, maxWidth: 50, m: 2 }}>
           <CardMedia
             component="img"
             height="100"
@@ -60,7 +60,7 @@ const DashboardScreen = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size='small'>Edit Game</Button>
+            <Button size='small' href={MainPath.EDITGAME}>Edit Game</Button>
           </CardActions>
         </Card>
         </>
