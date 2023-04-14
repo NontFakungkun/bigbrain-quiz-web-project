@@ -24,7 +24,7 @@ function App () {
             <Route path={MainPath.HOME} element={<PlaygroundScreen />} />
             <Route path={`${MainPath.EDITGAME}/:quizId`} element={<EditGameScreen />} />
             <Route path={`${MainPath.EDITQUESTION}/:quizId/:questionId`} element={<EditQuestionScreen />} />
-            <Route path={MainPath.RESULT} element={<ResultScreen authed={true}/>} />
+            <Route path={`${MainPath.EDITGAME}/:sessionId`} element={<ResultScreen />} />
           </Route>
           <Route path="*" element={
             <div>

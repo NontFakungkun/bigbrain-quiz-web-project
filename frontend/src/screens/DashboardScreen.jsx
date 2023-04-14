@@ -3,6 +3,7 @@ import LogoutButton from '../components/LogoutButton';
 import { Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import { MainPath } from '../utils/Path';
 import ModalStartGameBox from '../components/ModalStartGameBox';
 import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
@@ -34,7 +35,6 @@ const DashboardScreen = () => {
   const fetchQuizzes = async () => {
     await fetchRequest({}, 'GET', '/admin/quiz')
       .then(async (data) => {
-        console.log(data)
         const quizzes = data.quizzes;
         const updatedQuizzes = [];
         for (let i = 0; i < quizzes.length; i++) {
@@ -94,9 +94,15 @@ const DashboardScreen = () => {
           <button onClick={createNewGame}>Create New Game</button>
         </>
       )}
-      {quizzesList.map((quiz, index) => (
-        <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame}/>
-      ))}
+      <Grid container spacing={2}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}>
+        {quizzesList.map((quiz, index) => (
+          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame}/>
+        ))}
+      </Grid>
 
       <Modal open={open} onClose={handleClose}>
         <ModalStartGameBox>
