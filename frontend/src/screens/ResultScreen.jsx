@@ -6,7 +6,7 @@ const ResultScreen = () => {
   console.log(sessionId);
   return (
     <>
-      {sessionId}
+      { sessionId }
     </>
   )
 }

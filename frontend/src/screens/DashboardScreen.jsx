@@ -115,10 +115,10 @@ const DashboardScreen = () => {
                 <Button variant="outlined" size='small' onClick={handleClose}>cancel</Button>
               </>
             }
-            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={currentQuizzId}>Copy</CopyToClipboardBtn>}
+            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentQuizzId}`}>Copy</CopyToClipboardBtn>}
             {!isTryDeleteGame && !isTryStartGame &&
               <><br />
-                <Button variant="contained" size='small' href={MainPath.RESULT}>yes</Button>
+                <Button variant="contained" size='small' href={`${MainPath.RESULT}`}>yes</Button>
                 <Button variant="outlined" size='small' value={'1'} onClick={handleClose}>no</Button>
               </>
             }
