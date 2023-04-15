@@ -90,7 +90,8 @@ const DashboardScreen = () => {
     const payload = {
       quizid: { quizId },
     }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`);
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`)
+      .then(() => window.location.reload(false));
   }
 
   return (
@@ -113,6 +114,7 @@ const DashboardScreen = () => {
           display: 'flex',
           flexDirection: 'row',
         }}>
+        {console.log(quizzesList)}
         {quizzesList.map((quiz, index) => (
           <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame}/>
         ))}
