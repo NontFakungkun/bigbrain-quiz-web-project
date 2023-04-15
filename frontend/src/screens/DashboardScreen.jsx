@@ -79,6 +79,20 @@ const DashboardScreen = () => {
       })
   }
 
+  const startGame = async (quizId) => {
+    const payload = {
+      quizid: { quizId },
+    }
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/start`);
+  }
+
+  const stopGame = async (quizId) => {
+    const payload = {
+      quizid: { quizId },
+    }
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`);
+  }
+
   return (
     <>
       <h2> Dashboard </h2>
@@ -100,7 +114,7 @@ const DashboardScreen = () => {
           flexDirection: 'row',
         }}>
         {quizzesList.map((quiz, index) => (
-          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame}/>
+          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame}/>
         ))}
       </Grid>
 
@@ -118,8 +132,8 @@ const DashboardScreen = () => {
             {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={currentQuizzId}>Copy</CopyToClipboardBtn>}
             {!isTryDeleteGame && !isTryStartGame &&
               <><br />
-                <Button variant="contained" size='small' href={MainPath.RESULT}>yes</Button>
-                <Button variant="outlined" size='small' value={'1'} onClick={handleClose}>no</Button>
+                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}`}>yes</Button>
+                <Button variant="outlined" size='small' value={currentQuizzId} onClick={(e) => { stopGame(e.target.value) }}>no</Button>
               </>
             }
           </Typography>

@@ -3,7 +3,7 @@ import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame } = props
+  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame } = props
   return (
     <>
       <Card sx={{ minWidth: 500, maxWidth: 50, m: 2 }}>
@@ -23,7 +23,7 @@ const QuizCard = (props) => {
         </CardContent>
         <CardActions>
           <Button sx={{ marginRight: 1 }} variant="outlined" size='small' href={`${MainPath.EDITGAME}/${quiz.id}`}>Edit Game</Button>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); }}>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); startGame(e.target.value) }}>
             Start Game
           </Button>
           <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false); }}>
