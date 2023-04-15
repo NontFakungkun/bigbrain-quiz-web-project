@@ -39,17 +39,17 @@ const LoginScreen = () => {
       <div className='login-page'>
         <h1>Login</h1>
         <p className='login-desc'>Please login with your credentials</p>
-          <form>
-            <input type="text" className='input-box' placeholder='Enter your email' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
-            <input type="password" className='input-box' placeholder='Enter your password' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
+        <form>
+          <input type="text" className='input-box' placeholder='Enter your email' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+          <input type="password" className='input-box' placeholder='Enter your password' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
 
-            <p className='error-message'>{errorMessage}</p>
-            <a className='register-link' href={MainPath.REGISTER}>
-              to Register page
-            </a>
-            <div className='login-btn'>
-              <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Login </Button>
-            </div>
+          <p className='error-message'>{errorMessage}</p>
+          <a className='register-link' href={MainPath.REGISTER}>
+            to Register page
+          </a>
+          <div className='login-btn'>
+            <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Login </Button>
+          </div>
         </form>
       </div>
     </div>
