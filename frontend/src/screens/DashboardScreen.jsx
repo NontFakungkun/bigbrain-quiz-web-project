@@ -9,6 +9,7 @@ import ModalStartGameBox from '../components/ModalStartGameBox';
 import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
 import QuizCard from '../components/QuizCard';
 import fetchRequest from '../utils/fetchRequest';
+import TextField from '@mui/material/TextField';
 
 const DashboardScreen = () => {
   const [newGameDisplay, setNewGameDisplay] = React.useState(false);
@@ -103,10 +104,11 @@ const DashboardScreen = () => {
       <br />
       { newGameDisplay && (
         <>
-          New game setting:
           <br />
-          Name: <input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/>
+          <p>Name: </p>
+          <TextField margin="normal" id="outlined-basic" label="Outlined" variant="outlined" value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/> <br />
           <button onClick={createNewGame}>Create New Game</button>
+          <hr />
         </>
       )}
       <Grid container spacing={2}
