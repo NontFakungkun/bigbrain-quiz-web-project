@@ -37,9 +37,16 @@ const QuizCard = (props) => {
           {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); startGame(e.target.value) }}>
             Start Game
           </Button>}
-          {sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false); }}>
-            Stop Game
-          </Button>}
+          {sessionIsActive &&
+          <>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false) } }>
+              Stop Game
+          </Button>
+          <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}`}>
+            Result
+          </Button>
+          </>
+          }
           <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
             Delete Game
           </Button>

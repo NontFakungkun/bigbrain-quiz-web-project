@@ -68,7 +68,7 @@ const DashboardScreen = () => {
   }
 
   const modalStartStopGame = () => {
-    return isTryStartGame ? `Session ID: ${currentQuizzId}` : 'Would you like to view the results?';
+    return isTryStartGame ? `Session ID: ${currentQuizzId}` : 'Would you like to stop the game?';
   }
 
   const deleteQuizz = async () => {
