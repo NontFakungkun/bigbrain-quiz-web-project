@@ -3,6 +3,7 @@ import './css/PlayGameScreen.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import { MainPath } from '../utils/Path';
 import fetchRequest from '../utils/fetchRequest';
+import { Button } from '@mui/material';
 
 const PlayGameScreen = () => {
   const { playerId } = useParams();
@@ -91,7 +92,6 @@ const PlayGameScreen = () => {
     const inputs = document.querySelectorAll('[name="q-choices"]');
     if (inputs && inputs.length > 0) {
       if (inputs[0].type === 'radio') {
-        console.log(inputs[0].type);
         inputs.forEach(input => {
           input.addEventListener('change', singleQuestionChange);
         });
@@ -102,7 +102,6 @@ const PlayGameScreen = () => {
           });
         }
       } else if (inputs[0].type === 'checkbox') {
-        console.log(inputs[0].type);
         inputs.forEach(input => {
           input.addEventListener('change', multipleQuestionChange);
         });
@@ -114,7 +113,7 @@ const PlayGameScreen = () => {
         }
       }
     }
-  }, [currentQuestion]);
+  }, [currentQuestion, timeout]);
 
   // Record the points for each question
   React.useEffect(async () => {
@@ -124,35 +123,9 @@ const PlayGameScreen = () => {
         point: Number(currentQuestion.points),
         time: Number(currentQuestion.timeLimit),
       });
-      console.log(updatedPointTimeRecord);
       setPointTimeRecord(updatedPointTimeRecord);
     }
   }, [currentQuestion]);
-
-  // Set up data for result page
-  React.useEffect(async () => {
-    const scaling = 0.5
-    const timeDiffArray = [];
-    let correctlyAnswered = 0;
-    let points = 0.0;
-    resultData.forEach((question, index) => {
-      const startTime = new Date(question.questionStartedAt).getTime();
-      const answerTime = new Date(question.answeredAt).getTime();
-      const elapsedTime = Math.ceil((answerTime - startTime) / 1000)
-      timeDiffArray.push(elapsedTime);
-      if (question.correct) {
-        correctlyAnswered += 1;
-        const totalTime = pointTimeRecord[index].time;
-        const remainingTime = totalTime - elapsedTime;
-        const remainingTimePercentage = remainingTime / totalTime;
-        points += pointTimeRecord[index].point * (1.0 + (remainingTimePercentage * scaling));
-        console.log(points);
-      }
-    })
-    setTotalCorrect(correctlyAnswered);
-    setTotalPoint(points.toFixed(2));
-    setTimeDiff(timeDiffArray);
-  }, [resultData]);
 
   const singleQuestionChange = (event) => {
     if (event.target.checked) {
@@ -181,10 +154,32 @@ const PlayGameScreen = () => {
     fetchRequest(payload, 'PUT', `/play/${playerId}/answer`).catch(error => console.log(error));
   }
 
+  // Set up data for result page
+  React.useEffect(async () => {
+    const scaling = 0.5
+    const timeDiffArray = [];
+    let correctlyAnswered = 0;
+    let points = 0.0;
+    resultData.forEach((question, index) => {
+      const startTime = new Date(question.questionStartedAt).getTime();
+      const answerTime = new Date(question.answeredAt).getTime();
+      const elapsedTime = Math.ceil((answerTime - startTime) / 1000)
+      timeDiffArray.push(elapsedTime);
+      if (question.correct) {
+        correctlyAnswered += 1;
+        const totalTime = pointTimeRecord[index].time;
+        const remainingTime = totalTime - elapsedTime;
+        const remainingTimePercentage = remainingTime / totalTime;
+        points += pointTimeRecord[index].point * (1.0 + (remainingTimePercentage * scaling));
+      }
+    })
+    setTotalCorrect(correctlyAnswered);
+    setTotalPoint(points.toFixed(2));
+    setTimeDiff(timeDiffArray);
+  }, [resultData]);
+
   return (
     <>
-      <button onClick={() => { setGameStatus('waiting'); }}> waiting </button>
-      <button onClick={() => { setGameStatus('playing'); }}> playing </button>
       <div className='play-game-background'>
         <div className='play-game-page'>
           {gameStatus === 'waiting' &&
@@ -240,7 +235,7 @@ const PlayGameScreen = () => {
                 return (
                   <div key={index}>
                     <p>
-                      Question {index + 1}: {question.correct ? 'Correct' : 'Incorrect'},
+                      Question {index + 1}: {question.correct ? 'Correct, ' : 'Incorrect, '}
                       {question.answeredAt ? `answered in ${timeDiff[index]} seconds` : 'did not answer'}
                     </p>
                     <p>Your answer: {question.answerIds.join(', ')}</p>
@@ -249,6 +244,8 @@ const PlayGameScreen = () => {
               })}
             </>
           }
+          <br />
+          <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(`${MainPath.JOINGAME}/0`)}> Back </Button>
         </div>
       </div>
     </>
