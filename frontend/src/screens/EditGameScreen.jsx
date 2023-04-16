@@ -6,6 +6,7 @@ import QuestionCard from '../components/QuestionCard';
 import { Typography, Button, Modal, Box } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import fetchRequest from '../utils/fetchRequest';
+import { fileToDataUrl } from './fileToDataUrl';
 
 const EditGameScreen = () => {
   const { quizId } = useParams();
@@ -34,7 +35,8 @@ const EditGameScreen = () => {
       })
   }
 
-  const updateQuiz = async (questions, name, thumbnail) => {
+  const updateQuiz = async (questions, name, thumbnailData) => {
+    const thumbnail = await fileToDataUrl(thumbnailData)
     const payload = {
       questions,
       name,
@@ -143,7 +145,8 @@ const EditGameScreen = () => {
               <p> Name:</p>
               <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input>
               <p> Thumbnail URL: </p>
-              <input value={newThumbnailURL} onChange={(e) => { setNewThumbnailURL(e.target.value) }}></input>
+              {/* <input value={newThumbnailURL} onChange={(e) => { setNewThumbnailURL(e.target.value) }}></input> */}
+              <input type="file" id="myfile" name="myfile" onChange={(e) => { setNewThumbnailURL(e.target.files[0]) }}/>
             </Typography>
             <br />
             <Button variant='contained' size='small' onClick={ EditGameData }> Update </Button>

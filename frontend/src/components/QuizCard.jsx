@@ -4,7 +4,7 @@ import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, fetchQuizzes } = props
+  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, stopGame } = props
   const [sessionIsActive, setSessionIsActive] = React.useState(false)
 
   const checkSessionActive = async (quiz) => {
@@ -48,7 +48,7 @@ const QuizCard = (props) => {
           </Button>}
           {sessionIsActive &&
           <>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(false) } }>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { stopGame(e.target.value) } }>
               Stop Game
           </Button>
           <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}`}>

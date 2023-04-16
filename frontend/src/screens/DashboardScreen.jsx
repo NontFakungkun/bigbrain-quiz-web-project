@@ -136,7 +136,7 @@ const DashboardScreen = () => {
         }}>
         {console.log(quizzesList)}
         {quizzesList.map((quiz, index) => (
-          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame} fetchQuizzes={fetchQuizzes} />
+          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame} fetchQuizzes={fetchQuizzes} stopGame={stopGame} />
         ))}
       </Grid>
 
