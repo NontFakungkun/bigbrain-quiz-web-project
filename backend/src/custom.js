@@ -13,9 +13,11 @@ export const quizQuestionPublicReturn = question => {
  the correct answers (minimum 1).
 */
 export const quizQuestionGetCorrectAnswers = question => {
+  console.log('CA');
+  console.log(question.answer);
   return [
-    123,
-  ]; // For a single answer
+    ...question.answer
+  ];
 };
 
 /*
@@ -23,11 +25,10 @@ export const quizQuestionGetCorrectAnswers = question => {
  all of the answers, correct or incorrect.
 */
 export const quizQuestionGetAnswers = question => {
-  return [
-    123,
-    456,
-    678,
-  ]; // For a single answer
+  const qIDArray = Array.from({ length: question.choices.length }, (_, i) => i + 1);
+  console.log('AA');
+  console.log(qIDArray);
+  return qIDArray;
 };
 
 /*
@@ -35,5 +36,6 @@ export const quizQuestionGetAnswers = question => {
  of the question once it starts. (Seconds)
 */
 export const quizQuestionGetDuration = question => {
-  return 10;
+  console.log(question.timeLimit);
+  return Number(question.timeLimit);
 };

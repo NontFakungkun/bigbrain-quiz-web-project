@@ -1,0 +1,2 @@
+1.  Create URL barrier: prevent users from accessing the admin pages by directly entering URL
+2. Prevent multiple login by direct the logged in user back to dashboard when trying to access login/register page

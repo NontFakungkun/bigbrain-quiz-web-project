@@ -4,13 +4,18 @@ import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame } = props
+  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, fetchQuizzes } = props
   const [sessionIsActive, setSessionIsActive] = React.useState(false)
 
   const checkSessionActive = async (quiz) => {
     const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz}`)
     fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
       .then(data => { setSessionIsActive(data.results.active) });
+  }
+
+  let activeSession = quiz.active
+  if (!quiz.active) {
+    activeSession = 'None';
   }
 
   return (
@@ -30,6 +35,10 @@ const QuizCard = (props) => {
           </Typography>
           <Typography variant='p'>
           {quiz.qnum} Questions - {quiz.totalTime} Minutes
+          </Typography>
+          <br />
+          <Typography variant='p'>
+          Active session: {activeSession}
           </Typography>
         </CardContent>
         <CardActions>

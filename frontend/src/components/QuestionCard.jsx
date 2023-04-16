@@ -28,7 +28,7 @@ const QuestionCard = (props) => {
           </Typography>
           <br />
           <Typography variant='p'>
-            {`Media URL: ${question.media}`}
+            {`Video URL: ${question.media}`}
           </Typography>
           <br />
           <Typography variant='p'>
@@ -36,7 +36,7 @@ const QuestionCard = (props) => {
           </Typography>
           <br />
           <Typography variant='p'>
-            {`Answer(s): ${question.answer.join(', ')}`}
+            {`Answer ID(s): ${question.answer.join(', ')}`}
           </Typography>
         </CardContent>
         <CardActions>

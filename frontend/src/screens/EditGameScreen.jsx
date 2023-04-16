@@ -47,9 +47,8 @@ const EditGameScreen = () => {
   }
 
   const addNewQuestion = async () => {
-    const choicesList = newQChoices.trim().split(';');
-    const answerNumList = newQAnswer.split(';').map((num) => Number(num.trim()));
-    const answerList = choicesList.filter((choice, index) => answerNumList.includes(index + 1));
+    const choicesList = newQChoices.split(';').map((item) => item.trim());
+    const answerList = newQAnswer.split(';').map((num) => Number(num.trim()));
     const questions = questionList;
     questions.push({
       id: questions.length + 1,
@@ -174,13 +173,13 @@ const EditGameScreen = () => {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Title
               <input value={newQTitle} onChange={(e) => { setNewQTitle(e.target.value) }}></input> <br />
-              Type
+              Type (single/multiple)
               <input value={newQType} onChange={(e) => { setNewQType(e.target.value) }}></input> <br />
               Time Limit
               <input value={newQTimeLimit} onChange={(e) => { setNewQTimeLimit(e.target.value) }}></input> <br />
               Points
               <input value={newQPoints} onChange={(e) => { setNewQPoints(e.target.value) }}></input> <br />
-              Media URL
+              Video URL
               <input value={newQMedia} onChange={(e) => { setNewQMedia(e.target.value) }}></input> <br />
               Choices (separate all choices by ;)
               <input value={newQChoices} onChange={(e) => { setNewQChoices(e.target.value) }}></input> <br />

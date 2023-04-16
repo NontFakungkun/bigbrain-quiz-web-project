@@ -37,13 +37,12 @@ const EditQuestionScreen = () => {
       if (question.id === Number(questionId)) {
         let choicesList = question.choices;
         if (newChoices !== '') {
-          choicesList = newChoices.trim().split(';');
+          choicesList = newChoices.split(';').map((item) => item.trim());
         }
-        let answerNumList = question.answer;
+        let answerList = question.answer;
         if (newAnswer !== '') {
-          answerNumList = newAnswer.split(';').map((num) => Number(num.trim()));
+          answerList = newAnswer.split(';').map((num) => Number(num.trim()));
         }
-        const answerList = choicesList.filter((choice, index) => answerNumList.includes(index + 1));
         return {
           id: Number(questionId),
           title: newTitle === '' ? question.title : newTitle,
@@ -102,7 +101,7 @@ const EditQuestionScreen = () => {
             <td><input value={newTitle} onChange={(e) => { setNewTitle(e.target.value) }} /></td>
           </tr>
           <tr>
-            <td>Type: {questionData.type}</td>
+            <td>Type (single/multiple): {questionData.type}</td>
             <td><input value={newType} onChange={(e) => { setNewType(e.target.value) }} /></td>
           </tr>
           <tr>
@@ -114,7 +113,7 @@ const EditQuestionScreen = () => {
             <td><input value={newPoints} onChange={(e) => { setNewPoints(e.target.value) }} /></td>
           </tr>
           <tr>
-            <td>Media URL: {questionData.media}</td>
+            <td>Video URL: {questionData.media}</td>
             <td><input value={newMedia} onChange={(e) => { setNewMedia(e.target.value) }} /></td>
           </tr>
           <tr>
@@ -132,14 +131,14 @@ const EditQuestionScreen = () => {
           </tr>
           <tr>
             <td>
-              Answer(s):
+              Answer ID(s):
               <ul>
                 {questionData.answer.map((answer, index) => (
                   <li key={index}>{answer}</li>
                 ))}
               </ul>
               <br />
-              Put number i.e. 1 for first choice, write new answer(s) separate all choices by ;
+              Put number i.e. 1 for first choice, write new answer ID(s) separate all choices by ;
             </td>
             <td><textarea rows={3} value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }} /></td>
           </tr>
