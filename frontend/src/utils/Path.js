@@ -4,7 +4,6 @@ export const MainPath = {
   LOGIN: '/login',
   REGISTER: '/register',
   DASHBOARD: '/dashboard',
-  PLAYGROUND: '/playground',
   EDITGAME: '/editgame',
   EDITQUESTION: '/editquestion',
   JOINGAME: '/joingame',

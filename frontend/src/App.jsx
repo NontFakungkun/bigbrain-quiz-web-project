@@ -9,6 +9,8 @@ import LoggedInRoute from './utils/LoggedInRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
 import EditGameScreen from './screens/EditGameScreen';
 import EditQuestionScreen from './screens/EditQuestionScreen';
+import JoinGameScreen from './screens/JoinGameScreen';
+import PlayGameScreen from './screens/PlayGameScreen';
 import ResultScreen from './screens/ResultScreen';
 
 function App () {
@@ -21,11 +23,13 @@ function App () {
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path={MainPath.DASHBOARD} element={<DashboardScreen />} />
-            <Route path={MainPath.HOME} element={<PlaygroundScreen />} />
+            <Route path={`${MainPath.HOME}/:quizId`} element={<PlaygroundScreen />} />
             <Route path={`${MainPath.EDITGAME}/:quizId`} element={<EditGameScreen />} />
             <Route path={`${MainPath.EDITQUESTION}/:quizId/:questionId`} element={<EditQuestionScreen />} />
-            <Route path={`${MainPath.RESULT}/:currentQuizzId`} element={<ResultScreen />} />
+            <Route path={`${MainPath.RESULT}/:sessionId`} element={<ResultScreen />} />
           </Route>
+          <Route path={`${MainPath.JOINGAME}/:sessionId`} element={<JoinGameScreen />} />
+          <Route path={`${MainPath.PLAYGAME}/:playerId`} element={<PlayGameScreen />} />
           <Route path="*" element={
             <div>
               <h1>404 Page not found</h1>

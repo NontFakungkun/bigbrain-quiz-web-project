@@ -15,6 +15,7 @@ const DashboardScreen = () => {
   const [quizzesList, setQuizzesList] = React.useState([]);
   const [newQuizName, setNewQuizName] = React.useState('');
   const [currentQuizzId, setCurrentQuizzId] = React.useState('');
+  const [currentActiveSessId, setCurrentActiveSessId] = React.useState('');
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (value) => {
@@ -48,6 +49,7 @@ const DashboardScreen = () => {
             ...quiz,
             qnum: quizData.questions.length,
             totalTime: `${mins}:${secs}`,
+            active: quizData.active,
           };
           updatedQuizzes.push(updatedQuiz);
         }
@@ -68,7 +70,7 @@ const DashboardScreen = () => {
   }
 
   const modalStartStopGame = () => {
-    return isTryStartGame ? `Session ID: ${currentQuizzId}` : 'Would you like to view the results?';
+    return isTryStartGame ? `Session ID: ${currentActiveSessId}` : 'Would you like to view the results?';
   }
 
   const deleteQuizz = async () => {
@@ -80,17 +82,33 @@ const DashboardScreen = () => {
   }
 
   const startGame = async (quizId) => {
-    const payload = {
-      quizid: { quizId },
-    }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/start`);
+    fetchRequest({}, 'POST', `/admin/quiz/${quizId}/start`).then(
+      () => {
+        fetchRequest({}, 'GET', `/admin/quiz/${quizId}`).then(
+          data => {
+            setCurrentActiveSessId(data.active);
+            localStorage.setItem('myapp_test', 0);
+          }
+        );
+      }
+    ).catch(
+      (error) => {
+        if (error === 'Quiz already has active session') {
+          fetchRequest({}, 'GET', `/admin/quiz/${quizId}`).then(
+            data => setCurrentActiveSessId(data.active)
+          );
+        }
+      }
+    );
   }
 
   const stopGame = async (quizId) => {
-    const payload = {
-      quizid: { quizId },
-    }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`);
+    fetchRequest({}, 'POST', `/admin/quiz/${quizId}/end`).then(
+      () => {
+        setCurrentActiveSessId('');
+        localStorage.removeItem('myapp_test');
+      }
+    );
   }
 
   return (
@@ -114,7 +132,7 @@ const DashboardScreen = () => {
           flexDirection: 'row',
         }}>
         {quizzesList.map((quiz, index) => (
-          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame}/>
+          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame} fetchQuizzes={fetchQuizzes} />
         ))}
       </Grid>
 
@@ -129,11 +147,15 @@ const DashboardScreen = () => {
                 <Button variant="outlined" size='small' onClick={handleClose}>cancel</Button>
               </>
             }
-            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={currentQuizzId}>Copy</CopyToClipboardBtn>}
+            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentActiveSessId}`}>Copy</CopyToClipboardBtn>}
             {!isTryDeleteGame && !isTryStartGame &&
               <><br />
                 <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}`}>yes</Button>
-                <Button variant="outlined" size='small' value={currentQuizzId} onClick={(e) => { stopGame(e.target.value) }}>no</Button>
+                <Button variant="outlined" size='small' value={currentQuizzId} onClick={(e) => {
+                  stopGame(e.target.value);
+                  handleClose();
+                  fetchQuizzes();
+                }}>no</Button>
               </>
             }
           </Typography>
