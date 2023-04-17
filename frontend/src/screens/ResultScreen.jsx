@@ -44,7 +44,8 @@ const ResultScreen = () => {
       {!sessionIsActive && (
         <>
           Result bro
-          {/* table */}
+          {/* table of top 5 and their score */}
+
           {/* bar chart */}
           {/* average response/answer time */}
         </>

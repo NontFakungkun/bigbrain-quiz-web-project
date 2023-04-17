@@ -90,6 +90,14 @@ const EditGameScreen = () => {
     updateQuiz(newQuestionList, '', '');
   }
 
+  const DeleteThumbnail = () => {
+    const payload = {
+      thumbnail: 'default'
+    }
+    fetchRequest(payload, 'PUT', `/admin/quiz/${quizId}`)
+      .then(() => fetchQuizData());
+  }
+
   React.useEffect(async () => {
     await fetchQuizData();
   }, [])
@@ -98,7 +106,7 @@ const EditGameScreen = () => {
     <>
       <h2> Edit Game: {quizId} </h2>
       <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
-      <img src={thumbnailURL} alt="Game Thumbnail" />
+      <img src={thumbnailURL} alt="Game Thumbnail" style={{ width: 250 }} />
       <p>Name: {gameName}</p>
       <br />
       <div className='top-btns'>
@@ -145,8 +153,8 @@ const EditGameScreen = () => {
               <p> Name:</p>
               <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input>
               <p> Thumbnail URL: </p>
-              {/* <input value={newThumbnailURL} onChange={(e) => { setNewThumbnailURL(e.target.value) }}></input> */}
               <input type="file" id="myfile" name="myfile" onChange={(e) => { setNewThumbnailURL(e.target.files[0]) }}/>
+              <Button sx={{ maxHeight: 15 }} variant='contained' onClick={DeleteThumbnail}>Delete Tumbnail</Button>
             </Typography>
             <br />
             <Button variant='contained' size='small' onClick={ EditGameData }> Update </Button>
