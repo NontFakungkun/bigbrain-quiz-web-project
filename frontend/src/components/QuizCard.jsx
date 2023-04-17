@@ -8,7 +8,7 @@ const QuizCard = (props) => {
   const [sessionIsActive, setSessionIsActive] = React.useState(false)
 
   const checkSessionActive = async (quiz) => {
-    const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz}`)
+    const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
     fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
       .then(data => { setSessionIsActive(data.results.active) });
   }

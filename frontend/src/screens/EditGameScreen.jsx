@@ -36,7 +36,7 @@ const EditGameScreen = () => {
   }
 
   const updateQuiz = async (questions, name, thumbnailData) => {
-    const thumbnail = await fileToDataUrl(thumbnailData)
+    const thumbnail = (thumbnailData === '') ? '' : await fileToDataUrl(thumbnailData);
     const payload = {
       questions,
       name,
@@ -45,6 +45,9 @@ const EditGameScreen = () => {
     fetchRequest(payload, 'PUT', `/admin/quiz/${quizId}`)
       .then(() => {
         fetchQuizData();
+      })
+      .catch(() => {
+        console.log('Update quiz error!');
       })
   }
 
