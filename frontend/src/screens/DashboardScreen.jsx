@@ -37,6 +37,7 @@ const DashboardScreen = () => {
   const fetchQuizzes = async () => {
     await fetchRequest({}, 'GET', '/admin/quiz')
       .then(async (data) => {
+        console.log(data)
         const quizzes = data.quizzes;
         const updatedQuizzes = [];
         for (let i = 0; i < quizzes.length; i++) {
@@ -116,6 +117,7 @@ const DashboardScreen = () => {
   return (
     <>
       <h2> Dashboard </h2>
+      {/* when a new game is created, the user can optionally upload .json file containing data for a game. The data structure is validated on the frontend before passed to the backend normally */}
       <Button onClick={() => setNewGameDisplay(!newGameDisplay)}>
         Create New Game
       </Button>

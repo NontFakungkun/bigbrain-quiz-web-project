@@ -36,10 +36,10 @@ const JoinGameScreen = () => {
       <div className='join-game-page'>
         <h1>Join a Game</h1>
         <form>
-          <p>Game Session ID</p>
-          <input type="text" className='input-box' placeholder='Enter game session' value={gameSession} onChange={(event) => { setGameSession(event.target.value) }}/>
-          <p>Name</p>
-          <input type="text" className='input-box' placeholder='Enter your name' value={playerName} onChange={(event) => { setPlayerName(event.target.value) }}/>
+          <label htmlFor='game-session-input'>Game Session ID</label>
+          <input type="text" className='input-box' id='game-session-input' value={gameSession} onChange={(event) => { setGameSession(event.target.value) }}/>
+          <label htmlFor='name-input'>Name</label>
+          <input type="text" className='input-box' id='name-input' value={playerName} onChange={(event) => { setPlayerName(event.target.value) }}/>
           <p className='error-message'>{errorMessage}</p>
           <br />
           <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Join Game </Button>

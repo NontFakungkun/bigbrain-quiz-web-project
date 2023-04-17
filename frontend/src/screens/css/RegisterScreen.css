@@ -10,7 +10,7 @@
 
 .register-page {
     width: 350px;
-    height: 460px;
+    height: 510px;
     margin: 0 auto;
     background-color: white;
     position: absolute;
@@ -70,4 +70,6 @@
     display: block;
     text-align: right;
     margin: 5px 25px;
+    color: blue;
+    text-decoration: underline;
 }

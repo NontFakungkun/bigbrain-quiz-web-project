@@ -109,7 +109,7 @@ const EditGameScreen = () => {
     <>
       <h2> Edit Game: {quizId} </h2>
       <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
-      <img src={thumbnailURL} alt="Game Thumbnail" style={{ width: 250 }} />
+      <img src={thumbnailURL} alt={`Thumbnail of the game ${quizId}`} />
       <p>Name: {gameName}</p>
       <br />
       <div className='top-btns'>
@@ -166,7 +166,7 @@ const EditGameScreen = () => {
 
       <Modal
         sx={{
-          width: 300,
+          width: 350,
           height: 300,
           top: '30%',
           left: '40%',
@@ -185,19 +185,19 @@ const EditGameScreen = () => {
               Create new question
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Title
+              Title <br />
               <input value={newQTitle} onChange={(e) => { setNewQTitle(e.target.value) }}></input> <br />
-              Type (single/multiple)
+              Type (single/multiple) <br />
               <input value={newQType} onChange={(e) => { setNewQType(e.target.value) }}></input> <br />
-              Time Limit
+              Time Limit <br />
               <input value={newQTimeLimit} onChange={(e) => { setNewQTimeLimit(e.target.value) }}></input> <br />
-              Points
+              Points <br />
               <input value={newQPoints} onChange={(e) => { setNewQPoints(e.target.value) }}></input> <br />
-              Video URL
+              Video URL (put embed youtube link in a form of https://www.youtube.com/embed/xxxxxxx) <br />
               <input value={newQMedia} onChange={(e) => { setNewQMedia(e.target.value) }}></input> <br />
-              Choices (separate all choices by ;)
+              Choices (separate all choices by ;) <br />
               <input value={newQChoices} onChange={(e) => { setNewQChoices(e.target.value) }}></input> <br />
-              Answers (put number i.e. 1 for first choice, separate all answers by ;)
+              Answers (put number i.e. 1 for first choice, separate all answers by ;) <br />
               <input value={newQAnswer} onChange={(e) => { setNewQAnswer(e.target.value) }}></input> <br />
             </Typography>
             <br />
