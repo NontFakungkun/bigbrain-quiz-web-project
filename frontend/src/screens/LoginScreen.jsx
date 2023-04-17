@@ -40,8 +40,10 @@ const LoginScreen = () => {
         <h1>Login</h1>
         <p className='login-desc'>Please login with your credentials</p>
         <form>
-          <input type="text" className='input-box' placeholder='Enter your email' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
-          <input type="password" className='input-box' placeholder='Enter your password' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
+          <label htmlFor="email-input">Email</label>
+          <input type="text" className='input-box' id='email-input' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+          <label htmlFor="password-input">Password</label>
+          <input type="password" className='input-box' id='password-input' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
 
           <p className='error-message'>{errorMessage}</p>
           <a className='register-link' href={MainPath.REGISTER}>

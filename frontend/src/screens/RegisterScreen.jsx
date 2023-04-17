@@ -47,10 +47,14 @@ const RegisterScreen = () => {
         <h1>Register</h1>
         <p className='register-desc'>Register to create an account</p>
           <form>
-            <input type="text" className='input-box' placeholder='Enter your Name' value={name} onChange={(event) => { setName(event.target.value) }}/>
-            <input type="text" className='input-box' placeholder='Enter your email' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
-            <input type="password" className='input-box' placeholder='Enter your password' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
-            <input type="password" className='input-box' placeholder='Confirm your password' value={confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value) }}/>
+            <label htmlFor="name-input">Name</label>
+            <input type="text" className='input-box' id='name-input' value={name} onChange={(event) => { setName(event.target.value) }}/>
+            <label htmlFor="email-input">Email</label>
+            <input type="text" className='input-box' id='email-input' value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+            <label htmlFor="password-input">Password</label>
+            <input type="password" className='input-box' id='password-input' value={password} onChange={(event) => { setPassword(event.target.value) }}/>
+            <label htmlFor="confirm-pass-input">Confirm Password</label>
+            <input type="password" className='input-box' id='confirm-pass-input' value={confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value) }}/>
 
             <p className='error-message'>{errorMessage}</p>
             <a className='login-link' href={MainPath.LOGIN}>

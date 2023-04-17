@@ -183,20 +183,30 @@ const PlayGameScreen = () => {
       <div className='play-game-background'>
         <div className='play-game-page'>
           {gameStatus === 'waiting' &&
-            <>
-              <h4> Waiting for the game to start... </h4>
-            </>
+          <div className='lobby'>
+            <h4>Waiting for the game to start...</h4>
+          </div>
           }
           {gameStatus === 'playing' &&
             <>
               <h2>Question {currentQuestion.id}: {currentQuestion.title}  - {currentQuestion.points} Points</h2>
-                <p>TODO: Media: {currentQuestion.media}</p>
+                {currentQuestion.media && currentQuestion.media.startsWith('https://www.youtube.com/embed/') &&
+                  <div className='video-container'>
+                    <iframe
+                      src={currentQuestion.media}
+                      title={`YouTube video for Q${currentQuestion.id}`}
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                }
                 <p>Remaining time: {remainingTime}</p>
+                <br />
                 <form>
                   {!timeout && currentQuestion.type === 'single' && currentQuestion.choices.map((choice, index) => {
                     return (
-                      <div key={index}>
-                        <input type="radio" id={`q-choices-${index + 1}`} name="q-choices" value={index + 1} />
+                      <div key={index} style={{ display: 'flex', textAlign: 'left', marginLeft: 30 }}>
+                        <input type='radio' id={`q-choices-${index + 1}`} className='q-choices' name='q-choices' value={index + 1} />
                         <label>{choice.trim()}</label>
                         <br />
                       </div>
@@ -205,8 +215,8 @@ const PlayGameScreen = () => {
                 </form>
                 {!timeout && currentQuestion.type === 'multiple' && currentQuestion.choices.map((choice, index) => {
                   return (
-                    <div key={index}>
-                      <input type="checkbox" id={`q-choices-${index + 1}`}name="q-choices" value={index + 1} />
+                    <div key={index} style={{ display: 'flex', textAlign: 'left', marginLeft: 30 }}>
+                      <input type='checkbox' id={`q-choices-${index + 1}`} className='q-choices' name='q-choices' value={index + 1} />
                       <label>{choice.trim()}</label>
                       <br />
                     </div>
@@ -228,12 +238,13 @@ const PlayGameScreen = () => {
             <>
               <h2>Game Result</h2>
               <p> Point for each question will be calculated as (1 + (remaining time in percentage * scaling rate))points</p>
+              <br />
               <p> Note: scaling is a number between 0 to 1 </p>
               <h3> Question correctly answered {totalCorrect}/{resultData.length} | Total Points: {totalPoint} </h3>
 
               {resultData.map((question, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ display: 'flex', textAlign: 'left', marginLeft: 30 }}>
                     <p>
                       Question {index + 1}: {question.correct ? 'Correct, ' : 'Incorrect, '}
                       {question.answeredAt ? `answered in ${timeDiff[index]} seconds` : 'did not answer'}
@@ -245,7 +256,13 @@ const PlayGameScreen = () => {
             </>
           }
           <br />
-          <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(`${MainPath.JOINGAME}/0`)}> Back </Button>
+          <Button variant="outlined" size='small' style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            margin: '10px',
+            padding: '10px',
+          }} onClick={() => navigate(`${MainPath.JOINGAME}/0`)}> Back </Button>
         </div>
       </div>
     </>

@@ -113,7 +113,11 @@ const EditQuestionScreen = () => {
             <td><input value={newPoints} onChange={(e) => { setNewPoints(e.target.value) }} /></td>
           </tr>
           <tr>
-            <td>Video URL: {questionData.media}</td>
+            <td>
+              Video URL: {questionData.media}
+              <br />
+              put embed youtube link in a form of https://www.youtube.com/embed/xxxxxxx
+            </td>
             <td><input value={newMedia} onChange={(e) => { setNewMedia(e.target.value) }} /></td>
           </tr>
           <tr>
