@@ -4,7 +4,7 @@ import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button, Box, Modal } from '@mui/material'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, fetchQuizzes, stopGame } = props
+  const { quiz, handleOpen, fetchQuizzes, setQuizzIdSessionId, setModalState } = props
   const [sessionIsActive, setSessionIsActive] = React.useState('')
 
   const checkSessionActive = async (quiz) => {
@@ -83,15 +83,15 @@ const QuizCard = (props) => {
           </Button>}
           {sessionIsActive &&
           <>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { stopGame(e.target.value) } }>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('stop') }} >
             Stop Game
           </Button>
-          <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { setQuizzIdSessionId(e.target.value) }} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
             Result
           </Button>
           </>
           }
-          <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
+          <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('delete'); }}>
             Delete Game
           </Button>
         </CardActions>

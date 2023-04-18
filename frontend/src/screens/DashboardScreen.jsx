@@ -18,24 +18,26 @@ const DashboardScreen = () => {
   const [currentQuizzId, setCurrentQuizzId] = React.useState('');
   const [currentSessionId, setCurrentSessionId] = React.useState('');
   const [currentActiveSessId, setCurrentActiveSessId] = React.useState('');
+  const [modalState, setModalState] = React.useState('');
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (value) => {
     setOpen(true);
+    setQuizzIdSessionId(value);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    fetchQuizzes();
+  };
+
+  const setQuizzIdSessionId = (value) => {
     setCurrentQuizzId(value);
     fetchRequest({}, 'GET', `/admin/quiz/${currentQuizzId}`).then(
       data => {
         setCurrentSessionId(data.active);
       }
     );
-  };
-  const handleClose = () => {
-    setOpen(false);
-    setIsTryDeleteGame(false)
-  };
-  const [isTryStartGame, setIsTryStartGame] = React.useState(false);
-  const [isTryDeleteGame, setIsTryDeleteGame] = React.useState(false);
-
+  }
   React.useEffect(() => {
     fetchQuizzes();
   }, [])
@@ -77,10 +79,6 @@ const DashboardScreen = () => {
   }
 
   const modalStartStopGame = () => {
-    return isTryStartGame ? `Session ID: ${currentActiveSessId}` : 'Would you like to stop the game?';
-  }
-
-  const deleteQuizz = async () => {
     fetchRequest({}, 'DELETE', `/admin/quiz/${currentQuizzId}`)
       .then(() => {
         fetchQuizzes();
@@ -143,30 +141,31 @@ const DashboardScreen = () => {
           flexDirection: 'row',
         }}>
         {quizzesList.map((quiz, index) => (
-          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame} fetchQuizzes={fetchQuizzes} stopGame={stopGame} />
+          <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} fetchQuizzes={fetchQuizzes} setQuizzIdSessionId={setQuizzIdSessionId} setModalState={setModalState} />
         ))}
       </Grid>
 
       <Modal open={open} onClose={handleClose}>
         <ModalStartGameBox>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {!isTryDeleteGame && modalStartStopGame()}
-            {isTryDeleteGame &&
+            {modalState === 'start' && startGame(currentQuizzId) &&
               <>
-                Are you sure? <br />
-                <Button variant="contained" size='small' onClick={deleteQuizz}>DELETE</Button>
-                <Button variant="outlined" size='small' onClick={handleClose}>cancel</Button>
+                {`Session ID: ${currentQuizzId}`}
+                <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentActiveSessId}`}>Copy</CopyToClipboardBtn>
               </>
             }
-            {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentActiveSessId}`}>Copy</CopyToClipboardBtn>}
-            {!isTryDeleteGame && !isTryStartGame &&
-              <><br />
-                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`}>yes</Button>
-                <Button variant="outlined" size='small' value={currentQuizzId} onClick={(e) => {
-                  stopGame(e.target.value);
-                  handleClose();
-                  fetchQuizzes();
-                }}>no</Button>
+            {modalState === 'delete' &&
+              <>
+                Are you sure you want to delete the game? <br />
+                <Button variant="contained" size='small' onClick={() => { deleteQuizz(); stopGame(currentQuizzId); } }>DELETE</Button>
+                <Button variant="outlined" size='small' onClick={ handleClose }>cancel</Button>
+              </>
+            }
+            {modalState === 'stop' &&
+              <>
+                Are you sure you want to stop the game?<br />
+                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`} onClick={() => stopGame(currentQuizzId)}>yes</Button>
+                <Button variant="outlined" size='small' value={currentQuizzId} onClick={ handleClose }>no</Button>
               </>
             }
           </Typography>
