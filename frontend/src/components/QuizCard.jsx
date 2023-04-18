@@ -78,7 +78,7 @@ const QuizCard = (props) => {
           <Button variant="outlined" size='small' onClick={() => { setUploadModal(true); }}>
             Upload Data
           </Button>
-          {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); startGame(e.target.value); fetchQuizzes(); }}>
+          {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('start'); }}>
             Start Game
           </Button>}
           {sessionIsActive &&

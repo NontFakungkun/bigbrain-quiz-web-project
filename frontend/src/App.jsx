@@ -23,7 +23,6 @@ function App () {
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path={MainPath.DASHBOARD} element={<DashboardScreen />} />
-            {/* <Route path={`${MainPath.HOME}/:quizId`} element={<PlaygroundScreen />} /> */}
             <Route path={MainPath.HOME} element={<Navigate to={MainPath.DASHBOARD} replace />} />
             <Route path={`${MainPath.EDITGAME}/:quizId`} element={<EditGameScreen />} />
             <Route path={`${MainPath.EDITQUESTION}/:quizId/:questionId`} element={<EditQuestionScreen />} />

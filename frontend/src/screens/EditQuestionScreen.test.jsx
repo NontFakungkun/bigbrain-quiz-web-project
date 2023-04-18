@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import EditQuestionScreen from './EditQuestionScreen'
-import { BrowserRouter, Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Edit Question Screen', () => {
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Edit Question Screen', () => {
     const timeLimitInput = screen.getByRole('cell', { name: /Time Limit:/i });
     const pointsInput = screen.getByRole('cell', { name: /Points:/i });
     const videoInput = screen.getByRole('cell', { name: /Video URL:/i });
-    const choicesList =screen.getByRole('cell', { name: /Choices:/i });
+    const choicesList = screen.getByRole('cell', { name: /Choices:/i });
     const choicesInput = screen.getByRole('cell', { name: /In input text, write new choices separate all choices by ;/i });
     const answerList = screen.getByRole('cell', { name: /Answer ID\(s\):/i });
     const answerInput = screen.getByRole('cell', { name: /Put number i.e. 1 for first choice, write new answer ID\(s\) separate all choices by ;/i });
@@ -37,8 +37,8 @@ describe('Edit Question Screen', () => {
     expect(choicesInput).toBeInTheDocument();
     expect(answerList).toBeInTheDocument();
     expect(answerInput).toBeInTheDocument();
-    
   });
+
   it('displays the back and logout buttons', () => {
     const backButton = screen.getByRole('button', { name: /Back/i });
     const editButton = screen.getByRole('button', { name: /Edit Question/i });

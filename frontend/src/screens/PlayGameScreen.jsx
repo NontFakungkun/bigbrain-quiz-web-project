@@ -39,7 +39,6 @@ const PlayGameScreen = () => {
     const checkGameStatus = (event) => {
       if (event.key === sessionId) {
         const status = localStorage.getItem(sessionId)
-        console.log('TODO: localstorage ' + status);
         if (status && Number(status) > 0) {
           setGameStatus('playing');
           fetchRequest({}, 'GET', `/play/${playerId}/question`)

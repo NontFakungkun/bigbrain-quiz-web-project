@@ -10,6 +10,7 @@ import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
 import QuizCard from '../components/QuizCard';
 import fetchRequest from '../utils/fetchRequest';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardScreen = () => {
   const [newGameDisplay, setNewGameDisplay] = React.useState(false);
@@ -19,6 +20,7 @@ const DashboardScreen = () => {
   const [currentSessionId, setCurrentSessionId] = React.useState('');
   const [currentActiveSessId, setCurrentActiveSessId] = React.useState('');
   const [modalState, setModalState] = React.useState('');
+  const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (value) => {
@@ -78,7 +80,7 @@ const DashboardScreen = () => {
       })
   }
 
-  const modalStartStopGame = () => {
+  const deleteQuizz = () => {
     fetchRequest({}, 'DELETE', `/admin/quiz/${currentQuizzId}`)
       .then(() => {
         fetchQuizzes();
@@ -150,7 +152,7 @@ const DashboardScreen = () => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {modalState === 'start' && startGame(currentQuizzId) &&
               <>
-                {`Session ID: ${currentQuizzId}`}
+                {`Session ID: ${currentActiveSessId}`}
                 <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentActiveSessId}`}>Copy</CopyToClipboardBtn>
               </>
             }
@@ -163,9 +165,9 @@ const DashboardScreen = () => {
             }
             {modalState === 'stop' &&
               <>
-                Are you sure you want to stop the game?<br />
-                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`} onClick={() => stopGame(currentQuizzId)}>yes</Button>
-                <Button variant="outlined" size='small' value={currentQuizzId} onClick={ handleClose }>no</Button>
+                Would you like to view the results?<br />
+                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`} onClick={ () => { navigate(`${MainPath.RESULT}/${currentQuizzId}/${currentActiveSessId}`); stopGame(currentQuizzId); } }>yes</Button>
+                <Button variant="outlined" size='small' value={currentQuizzId} onClick={ () => { stopGame(currentQuizzId); handleClose(); } }>no</Button>
               </>
             }
           </Typography>

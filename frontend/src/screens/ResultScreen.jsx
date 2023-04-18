@@ -40,7 +40,10 @@ const ResultScreen = () => {
     const payload = {
       quizid: { quizId },
     }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/advance`);
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/advance`).then(() => {
+      console.log(`${quizId} advanced`)
+      localStorage.setItem(sessionId, Number(localStorage.getItem(sessionId)) + 1);
+    });
   }
 
   const getPlayer = () => {
@@ -54,6 +57,7 @@ const ResultScreen = () => {
       {sessionStatus && (
         <>
           Game hasn&apos;t finished <br />
+          <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
           <Button variant='contained' onClick={() => { advanceToNextQuestion(quizzId); setisPressed(!isPressed); }}>Advance to next question </Button> <br />
           <Button variant='contained' onClick={() => { stopGame(quizzId); setisPressed(!isPressed); }}>Stop the game</Button> <br />
           <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${sessionId}`}>Copy</CopyToClipboardBtn>
@@ -65,12 +69,11 @@ const ResultScreen = () => {
       {!sessionStatus && (
         <>
           <h2>Results🎉</h2>
+          <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
           <ResultTable sessionId={ sessionId } ></ResultTable>
           <ResultBarChart ></ResultBarChart>
-          {/* average response/answer time */}
         </>
       )}
-      <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
     </>
   )
 }
