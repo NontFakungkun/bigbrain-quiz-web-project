@@ -95,7 +95,7 @@ const ResultScreen = () => {
         <>
           Game hasn&apos;t finished <br />
           <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
-          <Button variant='contained' onClick={() => { advanceToNextQuestion(quizzId); setisPressed(!isPressed); }}>Advance to next question </Button> <br />
+          <Button variant='contained' onClick={() => { advanceToNextQuestion(quizzId); setisPressed(!isPressed); }}>Advance to next question</Button> <br />
           <Button variant='contained' onClick={() => { stopGame(quizzId); setisPressed(!isPressed); }}>Stop the game</Button> <br />
           <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${sessionId}`}>Copy</CopyToClipboardBtn>
           <p>Current Players: </p>
