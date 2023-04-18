@@ -5,7 +5,7 @@ import fetchRequest from '../utils/fetchRequest';
 import { Button } from '@mui/material';
 
 const LogoutButton = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logoutSubmit = (event) => {
     event.preventDefault();

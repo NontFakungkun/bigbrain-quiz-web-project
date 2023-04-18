@@ -8,14 +8,16 @@ const QuizCard = (props) => {
   const [sessionIsActive, setSessionIsActive] = React.useState('')
 
   const checkSessionActive = async (quiz) => {
-    const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
-    await fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
-      .then(data => {
-        if (data.results.active !== null) { setSessionIsActive(data.results.active) } else { setSessionIsActive(false) }
-      })
-      .catch(error => {
-        console.log('session not active: ' + error);
-      })
+    if (quiz) {
+      const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
+      await fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
+        .then(data => {
+          if (data.results.active !== null) { setSessionIsActive(data.results.active) } else { setSessionIsActive(false) }
+        })
+        .catch(error => {
+          console.log('session not active: ' + error);
+        })
+    }
   }
 
   let activeSession = quiz.active
@@ -57,7 +59,7 @@ const QuizCard = (props) => {
           component="img"
           height="100"
           image= {quiz.thumbnail}
-          alt={`${quiz.name} ${quiz.owner} ${quiz.createdAt}`}
+          alt={`Thumbnail of Quiz:${quiz.name} by ${quiz.owner} created at ${quiz.createdAt}`}
         />
         <CardContent>
           <Typography variant='h6'>
@@ -82,7 +84,7 @@ const QuizCard = (props) => {
           {sessionIsActive &&
           <>
           <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { stopGame(e.target.value) } }>
-              Stop Game
+            Stop Game
           </Button>
           <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
             Result

@@ -147,15 +147,15 @@ const EditGameScreen = () => {
           <Box sx={{
             backgroundColor: '#909090',
             border: '1px solid black',
-            color: 'white'
+            color: 'white',
           }}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Edit game details
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <p> Name:</p>
-              <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input>
-              <p> Thumbnail URL: </p>
+              Name:
+              <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input><br />
+              Thumbnail URL:
               <input type="file" id="myfile" name="myfile" onChange={(e) => { setNewThumbnailURL(e.target.files[0]) }}/>
               <Button sx={{ maxHeight: 15 }} variant='contained' onClick={DeleteThumbnail}>Delete Thumbnail</Button>
             </Typography>

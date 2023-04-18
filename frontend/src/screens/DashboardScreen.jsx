@@ -57,7 +57,6 @@ const DashboardScreen = () => {
             ...quiz,
             qnum: quizData.questions.length,
             totalTime: `${mins}:${secs}`,
-            active: quizData.active,
           };
           updatedQuizzes.push(updatedQuiz);
         }
@@ -143,7 +142,6 @@ const DashboardScreen = () => {
           display: 'flex',
           flexDirection: 'row',
         }}>
-        {console.log(quizzesList)}
         {quizzesList.map((quiz, index) => (
           <QuizCard key={index} quiz={quiz} handleOpen={handleOpen} setIsTryStartGame={setIsTryStartGame} setIsTryDeleteGame={setIsTryDeleteGame} startGame={startGame} fetchQuizzes={fetchQuizzes} stopGame={stopGame} />
         ))}
