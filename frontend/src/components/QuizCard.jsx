@@ -9,14 +9,17 @@ const QuizCard = (props) => {
 
   const checkSessionActive = async (quiz) => {
     if (quiz) {
-      const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
-      await fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
-        .then(data => {
-          if (data.results.active !== null) { setSessionIsActive(data.results.active) } else { setSessionIsActive(false) }
-        })
-        .catch(error => {
-          console.log('session not active: ' + error);
-        })
+      await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`).then(data => {
+        fetchRequest({}, 'GET', `/admin/session/${data.active}/status`)
+          .then(data => {
+            if (data.results.active !== null) { setSessionIsActive(data.results.active) } else { setSessionIsActive(false) }
+          })
+          .catch(error => {
+            console.log('session not active: ' + error);
+          });
+      }).catch(error => {
+        console.log(error);
+      });
     }
   }
 
@@ -91,7 +94,7 @@ const QuizCard = (props) => {
           </Button>
           </>
           }
-          <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('delete'); }}>
+          <Button name="delete-quiz-button" variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('delete'); }}>
             Delete Game
           </Button>
         </CardActions>

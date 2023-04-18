@@ -118,7 +118,7 @@ const EditQuestionScreen = () => {
               <br />
               put embed youtube link in a form of https://www.youtube.com/embed/xxxxxxx
             </td>
-            <td><input value={newMedia} onChange={(e) => { setNewMedia(e.target.value) }} /></td>
+            <td><input name="edit-media" value={newMedia} onChange={(e) => { setNewMedia(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>
@@ -144,12 +144,12 @@ const EditQuestionScreen = () => {
               <br />
               Put number i.e. 1 for first choice, write new answer ID(s) separate all choices by ;
             </td>
-            <td><textarea name="edit-answer" rows={3} value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }} /></td>
+            <td><textarea name="edit-answers" rows={3} value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }} /></td>
           </tr>
         </tbody>
       </table>
       <br />
-      <Button sx={{ marginRight: 1 }} variant="contained" size='small' onClick={ updateQuestion }>
+      <Button name='edit-question' sx={{ marginRight: 1 }} variant="contained" size='small' onClick={ updateQuestion }>
         Edit Question
       </Button>
       <Button variant="outlined" size='small' onClick={ clearInput }>
