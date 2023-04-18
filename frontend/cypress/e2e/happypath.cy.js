@@ -1,6 +1,6 @@
 const nameInput = "James"
-const emailInput = "James@gmail.comzsssssssssssszssssssssssszssssssssssssszssssssssssszssssss"
-const passwordInput = "James@gmail.comzsssss"
+const emailInput = "James@gmail.com"
+const passwordInput = "JamesJamesJames"
 
 describe('happy path ui testing', () => {
   it('got into login page (by access default path)', () => {

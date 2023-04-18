@@ -110,7 +110,7 @@ const EditGameScreen = () => {
       <h2> Edit Game: {quizId} </h2>
       <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
       <img src={thumbnailURL} alt={`Thumbnail of the game ${quizId}`} />
-      <p>Name: {gameName}</p>
+      <p name="game-name">Name: {gameName}</p>
       <br />
       <div className='top-btns'>
         <Button variant="contained" size='small' onClick={() => { setGameDetailModal(true) }}>
@@ -154,7 +154,7 @@ const EditGameScreen = () => {
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Name:
-              <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input><br />
+              <input name="edit-name-input" value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input><br />
               Thumbnail URL:
               <input type="file" id="myfile" name="myfile" onChange={(e) => { setNewThumbnailURL(e.target.files[0]) }}/>
               <Button sx={{ maxHeight: 15 }} variant='contained' onClick={DeleteThumbnail}>Delete Thumbnail</Button>
