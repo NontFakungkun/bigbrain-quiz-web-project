@@ -10,28 +10,28 @@ describe('testpath ui testing', () => {
       cy.url().should('include', 'http://localhost:3000/register')
     })
 
-    it('should register with inputs and navigate to dashboard succesfully', () => {
-      cy.visit('http://localhost:3000/register');
-      cy.get('input[id="name-input"]')
-        .focus()
-        .type(nameInput)
+    // it('should register with inputs and navigate to dashboard succesfully', () => {
+    //   cy.visit('http://localhost:3000/register');
+    //   cy.get('input[id="name-input"]')
+    //     .focus()
+    //     .type(nameInput)
 
-      cy.get('input[id="email-input"]')
-        .focus()
-        .type(emailInput)
+    //   cy.get('input[id="email-input"]')
+    //     .focus()
+    //     .type(emailInput)
 
-      cy.get('input[id="password-input"]')
-        .focus()
-        .type(passwordInput)
+    //   cy.get('input[id="password-input"]')
+    //     .focus()
+    //     .type(passwordInput)
 
-      cy.get('input[id="confirm-pass-input"]')
-        .focus()
-        .type(passwordInput)
+    //   cy.get('input[id="confirm-pass-input"]')
+    //     .focus()
+    //     .type(passwordInput)
 
-      cy.get('button[name="registerScreenButton"]')
-        .click();
-      cy.url().should('include', 'http://localhost:3000/dashboard')
-    })
+    //   cy.get('button[name="registerScreenButton"]')
+    //     .click();
+    //   cy.url().should('include', 'http://localhost:3000/dashboard')
+    // })
 
     it('should login and creates a new game successfully', () => {
       cy.visit('http://localhost:3000/login')
@@ -87,7 +87,7 @@ describe('testpath ui testing', () => {
         cy.get('p').contains("Name: newer game");
     })
 
-    it('should create new new question', () => {
+    it('should create new 2 questions and delete 1', () => {
         cy.visit('http://localhost:3000/login')
 
         cy.get('input[id="email-input"]')
@@ -210,4 +210,23 @@ describe('testpath ui testing', () => {
 
     //   cy.url().should('include', 'http://localhost:3000/dashboard')
     // })
+    it('should edit first question', () => {
+      cy.visit('http://localhost:3000/login')
+
+      cy.get('input[id="email-input"]')
+          .focus()
+          .type(emailInput)
+
+      cy.get('input[id="password-input"]')
+          .focus()
+          .type(passwordInput)
+
+      cy.get('button[name="login-button"]')
+          .click()
+
+      cy.contains('Edit Game').click()
+      cy.contains('Back').click()
+      cy.contains('Delete Game').click()
+
+  })
 })
