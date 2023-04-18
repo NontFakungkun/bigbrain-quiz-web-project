@@ -4,7 +4,7 @@ import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button, Box, Modal } from '@mui/material'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, fetchQuizzes, stopGame } = props
+  const { quiz, handleOpen, fetchQuizzes, setQuizzIdSessionId, setModalState } = props
   const [sessionIsActive, setSessionIsActive] = React.useState('')
 
   const checkSessionActive = async (quiz) => {
@@ -76,20 +76,20 @@ const QuizCard = (props) => {
           <Button variant="outlined" size='small' onClick={() => { setUploadModal(true); }}>
             Upload Data
           </Button>
-          {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryStartGame(true); startGame(e.target.value) }}>
+          {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('start'); }}>
             Start Game
           </Button>}
           {sessionIsActive &&
           <>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { stopGame(e.target.value) } }>
-              Stop Game
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('stop') }} >
+            Stop Game
           </Button>
-          <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
+          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { setQuizzIdSessionId(e.target.value) }} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
             Result
           </Button>
           </>
           }
-          <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setIsTryDeleteGame(true) }}>
+          <Button variant="contained" color='error' size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('delete'); }}>
             Delete Game
           </Button>
         </CardActions>
