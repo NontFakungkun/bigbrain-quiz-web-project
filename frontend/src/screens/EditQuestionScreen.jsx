@@ -98,19 +98,19 @@ const EditQuestionScreen = () => {
         <tbody>
           <tr>
             <td>Title: {questionData.title}</td>
-            <td><input value={newTitle} onChange={(e) => { setNewTitle(e.target.value) }} /></td>
+            <td><input name="edit-title" value={newTitle} onChange={(e) => { setNewTitle(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>Type (single/multiple): {questionData.type}</td>
-            <td><input value={newType} onChange={(e) => { setNewType(e.target.value) }} /></td>
+            <td><input name="edit-type" value={newType} onChange={(e) => { setNewType(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>Time Limit: {questionData.timeLimit}</td>
-            <td><input value={newTimeLimit} onChange={(e) => { setNewTimeLimit(e.target.value) }} /></td>
+            <td><input name="edit-time-limit" value={newTimeLimit} onChange={(e) => { setNewTimeLimit(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>Points: {questionData.points}</td>
-            <td><input value={newPoints} onChange={(e) => { setNewPoints(e.target.value) }} /></td>
+            <td><input name="edit-points" value={newPoints} onChange={(e) => { setNewPoints(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>
@@ -131,7 +131,7 @@ const EditQuestionScreen = () => {
               <br />
               In input text, write new choices separate all choices by ;
             </td>
-            <td><textarea rows={3} value={newChoices} onChange={(e) => { setNewChoices(e.target.value) }} /></td>
+            <td><textarea name="edit-choices" rows={3} value={newChoices} onChange={(e) => { setNewChoices(e.target.value) }} /></td>
           </tr>
           <tr>
             <td>
@@ -144,7 +144,7 @@ const EditQuestionScreen = () => {
               <br />
               Put number i.e. 1 for first choice, write new answer ID(s) separate all choices by ;
             </td>
-            <td><textarea rows={3} value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }} /></td>
+            <td><textarea name="edit-answer" rows={3} value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }} /></td>
           </tr>
         </tbody>
       </table>
