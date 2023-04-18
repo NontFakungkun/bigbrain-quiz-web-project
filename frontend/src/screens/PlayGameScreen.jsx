@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MainPath } from '../utils/Path';
 import fetchRequest from '../utils/fetchRequest';
 import { Button } from '@mui/material';
+import advanceScoreCalculation from '../utils/advanceScoreCalculation';
 
 const PlayGameScreen = () => {
   const { sessionId, playerId } = useParams();
@@ -155,21 +156,17 @@ const PlayGameScreen = () => {
 
   // Set up data for result page
   React.useEffect(async () => {
-    const scaling = 0.5
     const timeDiffArray = [];
     let correctlyAnswered = 0;
     let points = 0.0;
     resultData.forEach((question, index) => {
       const startTime = new Date(question.questionStartedAt).getTime();
       const answerTime = new Date(question.answeredAt).getTime();
-      const elapsedTime = Math.ceil((answerTime - startTime) / 1000)
+      const elapsedTime = Math.ceil((answerTime - startTime) / 1000);
       timeDiffArray.push(elapsedTime);
       if (question.correct) {
         correctlyAnswered += 1;
-        const totalTime = pointTimeRecord[index].time;
-        const remainingTime = totalTime - elapsedTime;
-        const remainingTimePercentage = remainingTime / totalTime;
-        points += pointTimeRecord[index].point * (1.0 + (remainingTimePercentage * scaling));
+        points += advanceScoreCalculation(pointTimeRecord[index].time, pointTimeRecord[index].point, startTime, answerTime);
       }
     })
     setTotalCorrect(correctlyAnswered);
