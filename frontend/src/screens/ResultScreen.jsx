@@ -2,18 +2,23 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import fetchRequest from '../utils/fetchRequest';
 import Button from '@mui/material/Button';
+import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
+import ResultTable from '../components/ResultTable';
 
 const ResultScreen = () => {
-  const { currentQuizzId } = useParams();
-  const [sessionIsActive, setSessionIsActive] = React.useState(false);
+  const { quizzId, sessionId } = useParams();
   const [stopIsPressed, setStopIsPressed] = React.useState(false);
+  const [players, setPlayers] = React.useState([])
 
-  useEffect(async () => {
-    const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${currentQuizzId}`)
-    fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
-      .then(data => { setSessionIsActive(data.results.active) })
-      .catch(() => {
-        setSessionIsActive(false);
+  useEffect(() => {
+    fetchRequest({}, 'GET', `/admin/session/${sessionId}/status`)
+      .then(data => {
+        console.log(data)
+        console.log(quizzId)
+        setPlayers(data.results.players);
+      })
+      .catch((error) => {
+        console.error('cant get status ' + error)
       });
   }, [stopIsPressed])
 
@@ -31,20 +36,39 @@ const ResultScreen = () => {
     fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/advance`);
   }
 
+  const getResult = () => {
+    fetchRequest({}, 'GET', `/admin/session/${sessionId}/results`)
+      .then(data => {
+        console.log(data.results)
+      })
+      .catch('session still active')
+  }
+
+  const getPlayer = () => {
+    return <>
+      {players.map(player => <p key={player}>{player}</p>)}
+    </>
+  }
+
   return (
     <>
-      {sessionIsActive && (
+      {sessionId && (
         <>
           Game hasn&apos;t finished <br />
-          <Button variant='contained' onClick={() => advanceToNextQuestion(currentQuizzId)}>Advance to next question</Button> <br />
-          <Button variant='contained' onClick={() => { stopGame(currentQuizzId); setStopIsPressed(true); }}>Stop the game</Button>
+          <Button variant='contained' onClick={() => { advanceToNextQuestion(quizzId); setStopIsPressed(!stopIsPressed); }}>Advance to next question </Button> <br />
+          <Button variant='contained' onClick={() => { stopGame(quizzId); setStopIsPressed(!stopIsPressed); }}>Stop the game</Button> <br />
+          <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${sessionId}`}>Copy</CopyToClipboardBtn>
+          <p>Current Players: </p>
+          { getPlayer() }
         </>
       )}
 
-      {!sessionIsActive && (
+      {!sessionId && (
         <>
           Result bro
           {/* table of top 5 and their score */}
+          {getResult()}
+          <ResultTable players={ players }></ResultTable>
 
           {/* bar chart */}
           {/* average response/answer time */}

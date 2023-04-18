@@ -27,7 +27,7 @@ function App () {
             <Route path={MainPath.HOME} element={<Navigate to={MainPath.DASHBOARD} replace />} />
             <Route path={`${MainPath.EDITGAME}/:quizId`} element={<EditGameScreen />} />
             <Route path={`${MainPath.EDITQUESTION}/:quizId/:questionId`} element={<EditQuestionScreen />} />
-            <Route path={`${MainPath.RESULT}/:sessionId`} element={<ResultScreen />} />
+            <Route path={`${MainPath.RESULT}/:quizzId/:sessionId`} element={<ResultScreen />} />
           </Route>
           <Route path={`${MainPath.JOINGAME}/:sessionId`} element={<JoinGameScreen />} />
           <Route path={`${MainPath.PLAYGAME}/:playerId`} element={<PlayGameScreen />} />

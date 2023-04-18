@@ -2,16 +2,20 @@ import React from 'react'
 import fetchRequest from '../utils/fetchRequest'
 import { MainPath } from '../utils/Path'
 import { Card, CardMedia, CardActions, CardContent, Typography, Button, Box, Modal } from '@mui/material'
-import fetchRequest from '../utils/fetchRequest'
 
 const QuizCard = (props) => {
-  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, stopGame } = props
-  const [sessionIsActive, setSessionIsActive] = React.useState(false)
+  const { quiz, handleOpen, setIsTryStartGame, setIsTryDeleteGame, startGame, fetchQuizzes, stopGame } = props
+  const [sessionIsActive, setSessionIsActive] = React.useState('')
 
   const checkSessionActive = async (quiz) => {
     const quizData = await fetchRequest({}, 'GET', `/admin/quiz/${quiz.id}`)
-    fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
-      .then(data => { setSessionIsActive(data.results.active) });
+    await fetchRequest({}, 'GET', `/admin/session/${quizData.active}/status`)
+      .then(data => {
+        if (data.results.active !== null) { setSessionIsActive(data.results.active) } else { setSessionIsActive(false) }
+      })
+      .catch(error => {
+        console.log('session not active: ' + error);
+      })
   }
 
   let activeSession = quiz.active
@@ -46,7 +50,7 @@ const QuizCard = (props) => {
 
   return (
     <>
-      {checkSessionActive(quiz.id) &&
+      {checkSessionActive(quiz) &&
 
       <Card sx={{ minWidth: 600, maxWidth: 60, m: 2 }}>
         <CardMedia
@@ -80,7 +84,7 @@ const QuizCard = (props) => {
           <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { stopGame(e.target.value) } }>
               Stop Game
           </Button>
-          <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}`}>
+          <Button variant="contained" size='small' value={`${quiz.id}`} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
             Result
           </Button>
           </>

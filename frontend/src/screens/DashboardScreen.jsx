@@ -16,12 +16,18 @@ const DashboardScreen = () => {
   const [quizzesList, setQuizzesList] = React.useState([]);
   const [newQuizName, setNewQuizName] = React.useState('');
   const [currentQuizzId, setCurrentQuizzId] = React.useState('');
+  const [currentSessionId, setCurrentSessionId] = React.useState('');
   const [currentActiveSessId, setCurrentActiveSessId] = React.useState('');
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (value) => {
     setOpen(true);
     setCurrentQuizzId(value);
+    fetchRequest({}, 'GET', `/admin/quiz/${currentQuizzId}`).then(
+      data => {
+        setCurrentSessionId(data.active);
+      }
+    );
   };
   const handleClose = () => {
     setOpen(false);
@@ -156,7 +162,7 @@ const DashboardScreen = () => {
             {!isTryDeleteGame && isTryStartGame && <CopyToClipboardBtn value={`http://${window.location.host}/joingame/${currentActiveSessId}`}>Copy</CopyToClipboardBtn>}
             {!isTryDeleteGame && !isTryStartGame &&
               <><br />
-                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}`}>yes</Button>
+                <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`}>yes</Button>
                 <Button variant="outlined" size='small' value={currentQuizzId} onClick={(e) => {
                   stopGame(e.target.value);
                   handleClose();
