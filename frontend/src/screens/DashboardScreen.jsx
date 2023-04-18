@@ -78,7 +78,7 @@ const DashboardScreen = () => {
   }
 
   const modalStartStopGame = () => {
-    return isTryStartGame ? `Session ID: ${currentQuizzId}` : 'Would you like to stop the game?';
+    return isTryStartGame ? `Session ID: ${currentActiveSessId}` : 'Would you like to stop the game?';
   }
 
   const deleteQuizz = async () => {
@@ -95,7 +95,7 @@ const DashboardScreen = () => {
         fetchRequest({}, 'GET', `/admin/quiz/${quizId}`).then(
           data => {
             setCurrentActiveSessId(data.active);
-            localStorage.setItem('myapp_test', 0);
+            localStorage.setItem(data.active, 0);
           }
         );
       }
@@ -113,8 +113,9 @@ const DashboardScreen = () => {
   const stopGame = async (quizId) => {
     fetchRequest({}, 'POST', `/admin/quiz/${quizId}/end`).then(
       () => {
+        localStorage.setItem(currentActiveSessId, 10000);
+        localStorage.removeItem(currentActiveSessId);
         setCurrentActiveSessId('');
-        localStorage.removeItem('myapp_test');
       }
     )
       .then(() => window.location.reload(false));

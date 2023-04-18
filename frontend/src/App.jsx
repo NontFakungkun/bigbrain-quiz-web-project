@@ -11,7 +11,7 @@ import EditQuestionScreen from './screens/EditQuestionScreen';
 import JoinGameScreen from './screens/JoinGameScreen';
 import PlayGameScreen from './screens/PlayGameScreen';
 import ResultScreen from './screens/ResultScreen';
-import PlaygroundScreen from './screens/PlaygroundScreen';
+// import PlaygroundScreen from './screens/PlaygroundScreen';
 
 function App () {
   return (
@@ -30,7 +30,7 @@ function App () {
             <Route path={`${MainPath.RESULT}/:quizzId/:sessionId`} element={<ResultScreen />} />
           </Route>
           <Route path={`${MainPath.JOINGAME}/:sessionId`} element={<JoinGameScreen />} />
-          <Route path={`${MainPath.PLAYGAME}/:playerId`} element={<PlayGameScreen />} />
+          <Route path={`${MainPath.PLAYGAME}/:sessionId/:playerId`} element={<PlayGameScreen />} />
           <Route path="*" element={
             <div>
               <h1>404 Page not found</h1>

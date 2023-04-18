@@ -24,7 +24,7 @@ const JoinGameScreen = () => {
       }
       fetchRequest(payload, 'POST', `/play/join/${gameSession}`)
         .then((data) => {
-          navigate(`${MainPath.PLAYGAME}/${data.playerId}`);
+          navigate(`${MainPath.PLAYGAME}/${gameSession}/${data.playerId}`);
         }).catch((error) => {
           setErrorMessage(error);
         });

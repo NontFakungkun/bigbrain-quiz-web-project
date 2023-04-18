@@ -6,7 +6,7 @@ import fetchRequest from '../utils/fetchRequest';
 import { Button } from '@mui/material';
 
 const PlayGameScreen = () => {
-  const { playerId } = useParams();
+  const { sessionId, playerId } = useParams();
   const navigate = useNavigate()
   const [gameStatus, setGameStatus] = React.useState(null);
   const [currentQuestion, setCurrentQuestion] = React.useState([]);
@@ -37,15 +37,15 @@ const PlayGameScreen = () => {
 
   React.useEffect(() => {
     const checkGameStatus = (event) => {
-      if (event.key === 'myapp_test') {
-        const status = localStorage.getItem('myapp_test')
+      if (event.key === sessionId) {
+        const status = localStorage.getItem(sessionId)
         console.log('TODO: localstorage ' + status);
         if (status && Number(status) > 0) {
           setGameStatus('playing');
           fetchRequest({}, 'GET', `/play/${playerId}/question`)
             .then(data => setCurrentQuestion(data.question)).catch(error => {
               if (error === 'Session ID is not an active session') {
-                localStorage.removeItem('myapp_test');
+                localStorage.removeItem(sessionId);
                 setGameStatus('finished');
                 fetchRequest({}, 'GET', `/play/${playerId}/results`)
                   .then(data => {

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import fetchRequest from '../utils/fetchRequest';
 import Button from '@mui/material/Button';
 import CopyToClipboardBtn from '../components/CopyToClipboardBtn';
 import ResultTable from '../components/ResultTable';
+import { MainPath } from '../utils/Path';
 
 const ResultScreen = () => {
   const { quizzId, sessionId } = useParams();
   const [stopIsPressed, setStopIsPressed] = React.useState(false);
   const [players, setPlayers] = React.useState([])
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchRequest({}, 'GET', `/admin/session/${sessionId}/status`)
@@ -26,14 +28,21 @@ const ResultScreen = () => {
     const payload = {
       quizid: { quizId },
     }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`);
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/end`).then(() => {
+      console.log(`${quizId} ended`);
+      localStorage.setItem(sessionId, 10000);
+      localStorage.removeItem(sessionId);
+    });
   }
 
   const advanceToNextQuestion = (quizId) => {
     const payload = {
       quizid: { quizId },
     }
-    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/advance`);
+    fetchRequest({ payload }, 'POST', `/admin/quiz/${quizId}/advance`).then(() => {
+      console.log(`${quizId} advanced`)
+      localStorage.setItem(sessionId, Number(localStorage.getItem(sessionId)) + 1);
+    });
   }
 
   const getResult = () => {
@@ -66,6 +75,8 @@ const ResultScreen = () => {
       {!sessionId && (
         <>
           Result bro
+          <p> Point for each question will be calculated as (1 + (remaining time in percentage * scaling rate))points</p>
+          <p> Note: scaling is a number between 0 to 1 </p>
           {/* table of top 5 and their score */}
           {getResult()}
           <ResultTable players={ players }></ResultTable>
@@ -74,6 +85,7 @@ const ResultScreen = () => {
           {/* average response/answer time */}
         </>
       )}
+      <Button variant="outlined" size='small' style={{ float: 'right' }} onClick={() => navigate(MainPath.DASHBOARD)}> Back </Button><br />
     </>
   )
 }

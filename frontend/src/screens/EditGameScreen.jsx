@@ -157,7 +157,7 @@ const EditGameScreen = () => {
               <input value={newGameName} onChange={(e) => { setNewGameName(e.target.value) }}></input>
               <p> Thumbnail URL: </p>
               <input type="file" id="myfile" name="myfile" onChange={(e) => { setNewThumbnailURL(e.target.files[0]) }}/>
-              <Button sx={{ maxHeight: 15 }} variant='contained' onClick={DeleteThumbnail}>Delete Tumbnail</Button>
+              <Button sx={{ maxHeight: 15 }} variant='contained' onClick={DeleteThumbnail}>Delete Thumbnail</Button>
             </Typography>
             <br />
             <Button variant='contained' size='small' onClick={ EditGameData }> Update </Button>
