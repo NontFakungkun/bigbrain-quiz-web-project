@@ -124,7 +124,7 @@ const DashboardScreen = () => {
     <>
       <h2> Dashboard </h2>
       {/* when a new game is created, the user can optionally upload .json file containing data for a game. The data structure is validated on the frontend before passed to the backend normally */}
-      <Button onClick={() => setNewGameDisplay(!newGameDisplay)}>
+      <Button name="create-new-game" onClick={() => setNewGameDisplay(!newGameDisplay)}>
         Create New Game
       </Button>
       <br />
@@ -132,8 +132,8 @@ const DashboardScreen = () => {
         <>
           <br />
           <p>Name: </p>
-          <TextField margin="normal" id="outlined-basic" label="Outlined" variant="outlined" value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/> <br />
-          <button onClick={createNewGame}>Create New Game</button>
+          <TextField name='new-game-name' margin="normal" id="outlined-basic" label="Outlined" variant="outlined" value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)}/> <br />
+          <button name="create-new-game-confirm" onClick={createNewGame}>Create New Game</button>
           <hr />
         </>
       )}
@@ -167,7 +167,7 @@ const DashboardScreen = () => {
               <>
                 Would you like to view the results?<br />
                 <Button variant="contained" size='small' href={`${MainPath.RESULT}/${currentQuizzId}/${currentSessionId}`} onClick={ () => { navigate(`${MainPath.RESULT}/${currentQuizzId}/${currentActiveSessId}`); stopGame(currentQuizzId); } }>yes</Button>
-                <Button variant="outlined" size='small' value={currentQuizzId} onClick={ () => { stopGame(currentQuizzId); handleClose(); } }>no</Button>
+                <Button name="stop-no-button" variant="outlined" size='small' value={currentQuizzId} onClick={ () => { stopGame(currentQuizzId); handleClose(); } }>no</Button>
               </>
             }
           </Typography>

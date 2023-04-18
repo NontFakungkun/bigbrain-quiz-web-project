@@ -50,7 +50,7 @@ const LoginScreen = () => {
             to Register page
           </a>
           <div className='login-btn'>
-            <Button variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Login </Button>
+            <Button name="login-button" variant="contained" size='small' className='btn-primary' onClick={ handleSubmit }> Login </Button>
           </div>
         </form>
       </div>

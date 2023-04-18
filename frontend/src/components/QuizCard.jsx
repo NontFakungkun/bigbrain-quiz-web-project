@@ -62,7 +62,7 @@ const QuizCard = (props) => {
           alt={`Thumbnail of Quiz:${quiz.name} by ${quiz.owner} created at ${quiz.createdAt}`}
         />
         <CardContent>
-          <Typography variant='h6'>
+          <Typography name="quiz-name" variant='h6'>
           {quiz.name}
           </Typography>
           <Typography variant='p'>
@@ -78,15 +78,15 @@ const QuizCard = (props) => {
           <Button variant="outlined" size='small' onClick={() => { setUploadModal(true); }}>
             Upload Data
           </Button>
-          {!sessionIsActive && <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('start'); }}>
+          {!sessionIsActive && <Button name="start-quiz-button" variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('start'); }}>
             Start Game
           </Button>}
           {sessionIsActive &&
           <>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('stop') }} >
+          <Button name="stop-quiz-button" variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { handleOpen(e.target.value); setModalState('stop') }} >
             Stop Game
           </Button>
-          <Button variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { setQuizzIdSessionId(e.target.value) }} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
+          <Button name="result-quiz-button" variant="contained" size='small' value={`${quiz.id}`} onClick={(e) => { setQuizzIdSessionId(e.target.value) }} href={`${MainPath.RESULT}/${quiz.id}/${quiz.active}`}>
             Result
           </Button>
           </>
