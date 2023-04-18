@@ -186,22 +186,22 @@ const EditGameScreen = () => {
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Title <br />
-              <input value={newQTitle} onChange={(e) => { setNewQTitle(e.target.value) }}></input> <br />
+              <input name="modal-new-title" value={newQTitle} onChange={(e) => { setNewQTitle(e.target.value) }}></input> <br />
               Type (single/multiple) <br />
-              <input value={newQType} onChange={(e) => { setNewQType(e.target.value) }}></input> <br />
+              <input name="modal-new-type" value={newQType} onChange={(e) => { setNewQType(e.target.value) }}></input> <br />
               Time Limit <br />
-              <input value={newQTimeLimit} onChange={(e) => { setNewQTimeLimit(e.target.value) }}></input> <br />
+              <input name="modal-new-time-limit" value={newQTimeLimit} onChange={(e) => { setNewQTimeLimit(e.target.value) }}></input> <br />
               Points <br />
-              <input value={newQPoints} onChange={(e) => { setNewQPoints(e.target.value) }}></input> <br />
+              <input name="modal-new-point" value={newQPoints} onChange={(e) => { setNewQPoints(e.target.value) }}></input> <br />
               Video URL (put embed youtube link in a form of https://www.youtube.com/embed/xxxxxxx) <br />
-              <input value={newQMedia} onChange={(e) => { setNewQMedia(e.target.value) }}></input> <br />
+              <input name="modal-new-video" value={newQMedia} onChange={(e) => { setNewQMedia(e.target.value) }}></input> <br />
               Choices (separate all choices by ;) <br />
-              <input value={newQChoices} onChange={(e) => { setNewQChoices(e.target.value) }}></input> <br />
+              <input name="modal-new-choices" value={newQChoices} onChange={(e) => { setNewQChoices(e.target.value) }}></input> <br />
               Answers (put number i.e. 1 for first choice, separate all answers by ;) <br />
-              <input value={newQAnswer} onChange={(e) => { setNewQAnswer(e.target.value) }}></input> <br />
+              <input name="modal-new-answers" value={newQAnswer} onChange={(e) => { setNewQAnswer(e.target.value) }}></input> <br />
             </Typography>
             <br />
-            <Button variant='contained' size='small' onClick={ addNewQuestion }> Add Question </Button>
+            <Button name="add-question-button" variant='contained' size='small' onClick={ addNewQuestion }> Add Question </Button>
           </Box>
       </Modal>
     </>

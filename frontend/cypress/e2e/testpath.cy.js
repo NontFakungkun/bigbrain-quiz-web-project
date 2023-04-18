@@ -1,5 +1,5 @@
 const nameInput = "Bill"
-const emailInput = "Bill@gmail.comssssssssss"
+const emailInput = "Bill@gmail.comsssssssssssssssssssss"
 const passwordInput = "BillBillBill"
 
 describe('testpath ui testing', () => {
@@ -101,7 +101,39 @@ describe('testpath ui testing', () => {
         cy.get('button[name="login-button"]')
             .click()
 
+        cy.contains('Edit Game').click()
+        cy.contains('Create New Question').click()
+
+        cy.get('input[name="modal-new-title"]')
+            .focus()
+            .type("Question 1: What is water?")
+
+        cy.get('input[name="modal-new-type"]')
+            .focus()
+            .type("single")
+
+        cy.get('input[name="modal-new-time-limit"]')
+            .focus()
+            .type("5")
+
+        cy.get('input[name="modal-new-point"]')
+            .focus()
+            .type("10")
         
+        cy.get('input[name="modal-new-video"]')
+            .focus()
+            .type("https://www.youtube.com/embed/dQw4w9WgXcQ")
+
+        cy.get('input[name="modal-new-choices"]')
+            .focus()
+            .type("water, rock")
+
+        cy.get('input[name="modal-new-answers"]')
+            .focus()
+            .type("1")
+
+        cy.contains(" Add Question ").click({ force: true })
+            
     })
 
     // it('should start a game successfully', () => {
