@@ -1,5 +1,5 @@
 # ReactJS: BigBrain
-This group assignment is done as a part of COMPcourse from UNSW and completed as a work of 2.
+This group assignment is done as a part of COMP6080 course from UNSW and completed as a work of 2.
 
 ### Feature 1. Admin Authentication
 #### Login Screen
