@@ -19,20 +19,18 @@ const LoginScreen = () => {
     } else if (!password) {
       setErrorMessage('Enter password')
     } else {
-      navigate(MainPath.DASHBOARD)
-      localStorage.setItem('token', 'aa');
-      // const payload = {
-      //   email,
-      //   password,
-      // }
-      // fetchRequest(payload, 'POST', '/admin/auth/login')
-      //   .then((data) => {
-      //     localStorage.setItem('token', data.token);
-      //     navigate(MainPath.DASHBOARD)
-      //   }).catch((error) => {
-      //     setErrorMessage(error)
-      //     setPassword('')
-      //   });
+      const payload = {
+        email,
+        password,
+      }
+      fetchRequest(payload, 'POST', '/admin/auth/login')
+        .then((data) => {
+          localStorage.setItem('token', data.token);
+          navigate(MainPath.DASHBOARD)
+        }).catch((error) => {
+          setErrorMessage(error)
+          setPassword('')
+        });
     }
   }
 
