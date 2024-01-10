@@ -11,7 +11,6 @@ import EditQuestionScreen from './screens/EditQuestionScreen';
 import JoinGameScreen from './screens/JoinGameScreen';
 import PlayGameScreen from './screens/PlayGameScreen';
 import ResultScreen from './screens/ResultScreen';
-// import PlaygroundScreen from './screens/PlaygroundScreen';
 
 function App () {
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import './css/LoginScreen.css'
 import { useNavigate } from 'react-router-dom';
 import { MainPath } from '../utils/Path';
-import fetchRequest from '../utils/fetchRequest';
+// import fetchRequest from '../utils/fetchRequest';
 import { Button } from '@mui/material';
 
 const LoginScreen = () => {
@@ -19,18 +19,20 @@ const LoginScreen = () => {
     } else if (!password) {
       setErrorMessage('Enter password')
     } else {
-      const payload = {
-        email,
-        password,
-      }
-      fetchRequest(payload, 'POST', '/admin/auth/login')
-        .then((data) => {
-          localStorage.setItem('token', data.token);
-          navigate(MainPath.DASHBOARD)
-        }).catch((error) => {
-          setErrorMessage(error)
-          setPassword('')
-        });
+      navigate(MainPath.DASHBOARD)
+      localStorage.setItem('token', 'aa');
+      // const payload = {
+      //   email,
+      //   password,
+      // }
+      // fetchRequest(payload, 'POST', '/admin/auth/login')
+      //   .then((data) => {
+      //     localStorage.setItem('token', data.token);
+      //     navigate(MainPath.DASHBOARD)
+      //   }).catch((error) => {
+      //     setErrorMessage(error)
+      //     setPassword('')
+      //   });
     }
   }
 

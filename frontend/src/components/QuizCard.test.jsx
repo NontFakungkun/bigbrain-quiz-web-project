@@ -18,7 +18,7 @@ describe('Quiz Card', () => {
     owner: 'lol@email.com',
     active: 123456,
     oldSessions: [4545546],
-    thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
+    thumbnail: 'data:image/png;,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
     totalTime: '1:30',
     qnum: 10,
   };
